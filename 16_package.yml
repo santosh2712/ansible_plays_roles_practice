@@ -1,0 +1,36 @@
+# Task 16: Software Packages
+# Create a playbook /home/automation/plays/packages.yml that runs on all inventory hosts and does the following:
+# 
+# Installs tcpdump and mailx packages on hosts in the proxy host groups.
+# Installs lsof and mailx and packages on hosts in the database host groups.
+#
+# Do as follows 
+# Command used => ansible-playbook 16_package.yml
+# 
+---
+- hosts: all
+  become: true
+  gather_facts: false
+  tasks: 
+    - name: install packages on proxy hosts group
+      package:
+        name: 
+          - tcpdump
+          - mailx
+        state: present
+        update_cache: true
+      when: '"proxy" in group_names'
+
+
+    - name: install packages on database hosts group
+      package:
+        name: 
+          - lsof
+          - mailx
+        state: present
+        update_cache: true
+      when: '"database" in group_names'
+
+
+...
+

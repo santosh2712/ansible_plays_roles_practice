@@ -1,0 +1,11 @@
+[proxy]
+ansnode_1 ansible_user=automation  ansible_host=192.168.21.101
+
+
+[webserver]
+ansnode_2 ansible_user=automation  ansible_host=192.168.21.102
+ansnode_3 ansible_user=automation  ansible_host=192.168.21.103
+
+
+[database]
+ansnode_4 ansible_user=automation  ansible_host=192.168.21.104

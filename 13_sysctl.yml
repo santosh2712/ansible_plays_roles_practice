@@ -1,0 +1,33 @@
+# Task 13: Use Conditionals to Control Play Execution
+# Create a playbook /home/automation/plays/sysctl.yml that runs on all inventory hosts and does the following:
+# 
+# If a server has more than 2048MB of RAM, then parameter vm.swappiness is set to 10.
+# If a server has less than 2048MB of RAM, then the following error message is displayed:
+# Server memory less than 2048MB
+# 
+# Do as follows 
+# Command used => ansible-playbook 12_selinux.yml 
+# 
+---
+- hosts: all
+  gather_facts: true
+  become: true
+  tasks:
+    # - debug:
+    #    var: ansible_memtotal_mb | type_debug
+    
+    - name: Setting vm.swappiness to 10  with sysctl module
+      sysctl:
+         name: vm.swappiness
+         value: 10
+         state: present
+
+      when: ansible_memtotal_mb  >=  '2048' 
+
+    - debug:
+        msg: Server memory less than 2048MB   
+      when: ansible_memtotal_mb  <=  '2048'   
+         
+
+...
+

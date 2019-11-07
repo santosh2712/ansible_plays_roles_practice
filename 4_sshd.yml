@@ -1,0 +1,42 @@
+#Create a playbook /home/automation/plays/sshd.yml that runs on all inventory hosts and configures SSHD daemon as follows:
+#
+#banner is set to /etc/motd
+#X11Forwarding is disabled
+#MaxAuthTries is set to 3
+#
+---
+- hosts: all
+  become: true
+  gather_facts: false
+  tasks:
+   
+    - name: Setting banner directive in /etc/ssh/sshd_config file 
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^\s*banner '
+        line: banner /etc/motd
+      tags: banner    
+
+   
+    - name: Setting Xforwarding  directive in /etc/ssh/sshd_config file 
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^\s*X11Forwarding '
+        line: X11Forwarding no  
+      tags: X11Forwarding  
+
+   
+    - name: Setting MaxAuthTries directive in /etc/ssh/sshd_config file 
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^\s*MaxAuthTries '
+        line: MaxAuthTries 3
+      tags: MaxAuthTries    
+
+    - name: Restarting sshd Service
+      service: name=sshd state=restarted enabled=yes
+
+
+
+
+...

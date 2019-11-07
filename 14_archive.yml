@@ -1,0 +1,34 @@
+# task 14: Use Archiving
+# Create a playbook /home/automation/plays/archive.yml that runs on hosts in the database host group and does the following:
+# 
+# A file /mnt/mysql_backups/database_list.txt is created that contains the following line: dev,test,qa,prod.
+# A gzip archive of the file /mnt/mysql_backups/database_list.txt is created and stored in /mnt/mysql_backups/archive.gz.
+# 
+# Do as follows 
+# Command used => ansible-playbook 14_archive.yml 
+---
+- hosts: database 
+  become: true 
+  gather_facts: false 
+  tasks:
+        
+    - name: Creating /mnt/mysql_backups/database_list.txt  file 
+      copy:
+        dest: /mnt/mysql_backups/database_list.txt
+        content:  |
+                dev
+                test
+                qa
+                prod
+
+
+    - shell: cat /mnt/mysql_backups/database_list.txt
+      register: filecontent
+    - debug:
+        var: filecontent.stdout_lines
+
+    - name: Archiving file /mnt/mysql_backups/database_list.txt
+      archive: 
+        path: /mnt/mysql_backups/database_list.txt
+        dest: /mnt/mysql_backups/archive.gz
+... 

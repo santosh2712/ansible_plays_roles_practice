@@ -1,0 +1,83 @@
+---
+# tasks file for sample-mysql
+- name: Creating partition on /dev/vda
+  parted:
+    device: /dev/vda
+    number: 1
+    state: present
+    part_end: 800MB
+ 
+- name: Create a volume group on top of /dev/vda1 with VG NAME vg_database
+  lvg:
+    vg: vg_database
+    pvs: /dev/vda1
+
+
+- name: Create a logical volume of 512m on VG named vg_database with name lv_mysql
+  lvol:
+    vg: vg_database
+    lv: lv_mysql
+    size: 512m
+
+- name: Create a XFS filesystem on /dev/vg_database/lv_mysql 
+  filesystem:
+    fstype: xfs
+    dev: /dev/vg_database/lv_mysql
+
+- name: Mount up /dev/vg_database/lv_mysql on /mnt/mysql_backups with xfs filesystem
+  mount:
+    path: /mnt/mysql_backups
+    src: /dev/vg_database/lv_mysql
+    fstype: xfs
+    state: present
+
+- name: Installing mysql-community-server  on database hostgroup 
+  yum: 
+      name:
+         - mysql-community-server
+         - firewalld 
+         - MySQL-python    
+      state: present
+      update_cache: yes 
+
+- name: Enableing Mysql Service from firewalld on database hostgroup 
+  firewalld:
+    service: mysql
+    permanent: yes
+    state: enabled
+    immediate: yes 
+
+- name: Restarting firewalld and mysql on database hostgroup 
+  service: 
+     name: "{{ item }}"
+     state: restarted
+     enabled: yes
+  loop:
+     - mysql
+     - firewalld
+
+- name: Create database user with name 'root' and set password from encrypted_password var file
+  mysql_user:
+    name: root
+    password: "{{ database_password | password_hash('sha512') }}"
+    priv: '*.*:ALL'
+    state: present
+  ignore_errors: yes 
+- name: Changeing /etc/my.cnf file with template module 
+  template:
+    src: my.cnf.j2
+    dest: /etc/my.cnf
+    group: wheel
+    mode: '0644'
+  notify:
+     - restart mysql
+ 
+
+
+
+
+
+
+
+
+

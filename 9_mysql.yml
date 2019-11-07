@@ -1,0 +1,43 @@
+# Create a role called sample-mysql and store it in /home/automation/plays/roles. The role should satisfy the following requirements:
+# A primary partition number 1 of size 800MB on device /dev/vdb is created.
+# An LVM volume group called vg_database is created that uses the primary partition created above.
+# An LVM logical volume called lv_mysql is created of size 512MB in the volume group vg_database.
+# An XFS filesystem on the logical volume lv_mysql is created.
+# Logical volume lv_mysql is permanently mounted on /mnt/mysql_backups.
+# mysql-community-server package is installed.
+# Firewall is configured to allow all incoming traffic on MySQL port TCP 3306.
+# MySQL root user password should be set from the variable database_password (see task #5).
+# MySQL server should be started and enabled on boot.
+# MySQL server configuration file is generated from the my.cnf.j2 Jinja2 template with the following content:
+# [mysqld]
+# bind_address = {{ ansible_default_ipv4.address }}
+# skip_name_resolve
+# datadir=/var/lib/mysql
+# socket=/var/lib/mysql/mysql.sock
+# symbolic-links=0
+# sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES 
+# [mysqld_safe]
+# log-error=/var/log/mysqld.log
+# pid-file=/var/run/mysqld/mysqld.pid
+# Create a playbook /home/automation/plays/mysql.yml that uses the role and runs on hosts in the database host group
+#
+# Do as follows Switch to roles Directory and issue following command 
+# Command used => ansible-galaxy init sample-mysql
+# 
+# ansible-playbook 9_mysql.yml --vault-password-file=vault_key
+# #################################################
+# 
+---
+- hosts: database
+  become: true
+  gather_facts: true
+  vars_files: 
+      - ./5_secret.yml
+  roles:
+     - sample-mysql
+
+
+  
+       
+...
+

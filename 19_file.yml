@@ -1,0 +1,16 @@
+---
+- hosts: all 
+  become: true
+  gather_facts: false
+  tasks: 
+    - name: Create Directory
+      file: dest=/{{ inventory_hostname }} state=directory
+
+    - name: creationg content in file 
+      copy:
+         dest: /{{ inventory_hostname }}/testfile.txt
+
+         content: |
+          "{{ inventory_hostname}}" 
+          "{{ group_names }}"      
+... 

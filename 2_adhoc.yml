@@ -1,0 +1,37 @@
+# Credit to question Set https://www.lisenet.com/2019/ansible-sample-exam-for-ex407/
+# Task 2: Ad-Hoc Commands
+# Generate an SSH keypair on the control node. You can perform this step manually.
+# Write a script /home/automation/plays/adhoc that uses Ansible ad-hoc commands to achieve the following:
+# User automation is created on all inventory hosts.
+# SSH key (that you generated) is copied to all inventory hosts for the automation user and stored in /home/automation/.ssh/authorized_keys.
+# The automation user is allowed to elevate privileges on all inventory hosts without having to provide a password.
+# After running the adhoc script, you should be able to SSH into all inventory hosts using the automation user without password, as well as a run all privileged commands.
+#
+# command Used -e used and ansible_user=automation was already defined in inventory and root user password is redhat in my case 
+# ansible-playbook 2_adhoc.yml -e "ansible_user=root ansible_password=redhat"
+# automation user password is set 'automation'
+# 
+---
+- hosts: all 
+  vars: 
+    userpass: automation
+  tasks:
+
+    - name: Creating user named automation
+      user: name=automation  generate_ssh_key=yes generate_ssh_key=yes password="{{ userpass | password_hash('sha512')}}" state=present
+
+    - name: fetch ssh keys from automation user
+      fetch: src=/home/automation/.ssh/id_rsa.pub dest=all_keys
+
+
+    - name: Creating shell file for gathering ssh keys 
+      local_action: shell echo -e '#!/bin/bash'\\n'cat ~/.ssh/id_rsa.pub > auto_keys'\\n'find ./all_keys -name 'id_rsa.pub' | while read i ; do cat $i  >> auto_keys ; done' > allkey.sh 
+
+    - name: Running Shell script to copy all keys to all_keys file  
+      local_action: script allkey.sh
+            
+    - name: Copy ssh keys to destination
+      authorized_key: user=automation  state=present key="{{ lookup( 'file' ,  './auto_keys' ) }}" 
+
+    - name: Copy Sudoers file for user automation 
+      copy: src=automation dest=/etc/sudoers.d/automation

@@ -1,0 +1,6 @@
+ansible 2.8.5
+  config file = /home/automation/ansible_plays_practice/ansible.cfg
+  configured module search path = [u'/home/automation/.ansible/plugins/modules', u'/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/lib/python2.7/site-packages/ansible
+  executable location = /usr/bin/ansible
+  python version = 2.7.5 (default, Aug  7 2019, 00:51:29) [GCC 4.8.5 20150623 (Red Hat 4.8.5-39)]

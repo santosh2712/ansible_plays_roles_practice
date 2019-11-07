@@ -1,0 +1,24 @@
+# Create a playbook /home/automation/plays/target.yml that runs on hosts in the webserver host group and does the following
+# Set the default boot target to multi-user.
+#
+# Do as follows 
+# Command used => ansible-playbook 17_services.yml 
+#
+---
+- hosts: webserver
+  become: true
+  gather_facts: false
+  tasks: 
+      - name: Setting  default boot target to multi-user.
+        command : systemctl set-default multi-user.target
+      
+      - command: systemctl get-default
+        register: get_default
+
+      - debug:
+          msg: System default for "{{ inventory_hostname }}" is "{{ get_default.stdout  }}"
+
+
+     
+...
+#

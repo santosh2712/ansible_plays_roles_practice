@@ -1,0 +1,68 @@
+# You have been provided with the list of users below.
+# 
+# Use /home/automation/plays/vars/user_list.yml file to save this content.
+# ---
+# users:
+#   - username: alice
+#     uid: 1201
+#   - username: vincent
+#     uid: 1202
+#   - username: sandy
+#     uid: 2201
+#   - username: patrick
+#     uid 2202
+# Create a playbook /home/automation/plays/users.yml that uses the vault file /home/automation/plays/secret.yml to achieve the following:
+# 
+# Users whose user ID starts with 1 should be created on servers in the webservers host group. User password should be used from the user_password variable.
+# Users whose user ID starts with 2 should be created on servers in the database host group. User password should be used from the user_password variable.
+# All users should be members of a supplementary group wheel.
+# Shell should be set to /bin/bash for all users.
+# Account passwords should use the SHA512 hash format.
+# Each user should have an SSH key uploaded (use the SSH key that you created previously, see task #2).
+# After running the playbook, users should be able to SSH into their respective servers without passwords.
+# 
+# command to run => ansible-playbook 6_users.yml  --vault-password-file=vault_key
+# make sure vault_key exist in current directory which was created on task 5
+---
+- name: Running task6 
+  hosts: all
+  become: true
+  gather_facts: false 
+  vars_files:
+     - ./vars/user_list.yml
+     - ./5_secret.yml
+
+  tasks:
+
+    - name: Creating wheel usergroup
+      group: name=wheel state=present
+      tags: wheel_group 
+      
+    - name: Adding User on Webserver and database hostgroup
+      user:
+        name:  "{{ item.username }}"
+        uid:   "{{ item.uid }}"
+        group: wheel
+        password: "{{ user_password | password_hash('sha512') }}"
+        state: present
+        shell: /bin/bash
+      loop: "{{ users }}"
+      when:
+          ( "webserver" in group_names and item.uid | string is regex('^1.*$') ) or 
+          ( "database" in group_names and item.uid | string is regex('^2.*$') )
+      tags: add_user    
+
+
+
+    - name: Copying RSA keys on webserver and database hostgroup
+      authorized_key:
+        user: "{{ item.username }}"
+        state: present
+        key: "{{ lookup( 'file' , './auto_keys' )}}"
+      loop: "{{ users }}"
+      when:
+          ( "webserver" in group_names and item.uid | string is regex('^1.*$') )  or 
+          ( "database" in group_names and item.uid | string is regex('^2.*$') )
+      tags: copy_keys
+    
+...

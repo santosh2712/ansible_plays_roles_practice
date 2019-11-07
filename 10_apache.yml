@@ -1,0 +1,22 @@
+# Create a role called sample-apache and store it in /home/automation/plays/roles. The role should satisfy the following requirements:
+# 
+# The httpd, mod_ssl and php packages are installed. Apache service is running and enabled on boot.
+# Firewall is configured to allow all incoming traffic on HTTP port TCP 80 and HTTPS port TCP 443.
+# Apache service should be restarted every time the file /var/www/html/index.html is modified.
+# A Jinja2 template file index.html.j2 is used to create the file /var/www/html/index.html with the following content:
+# The address of the server is: IPV4ADDRESS
+# IPV4ADDRESS is the IP address of the managed node.
+# Create a playbook /home/automation/plays/apache.yml that uses the role and runs on hosts in the webservers host group.
+#
+# Do as follows Switch to roles Directory and issue following command 
+# Command used => ansible-galaxy init sample-apache 
+# ansible-playbook 10_apache.yml 
+#  
+---
+- hosts: webserver
+  become: true
+  gather_facts: true
+  roles:
+     - { role: sample-apache }
+...
+

@@ -1,0 +1,30 @@
+---
+# tasks file for sample-apache
+- name: Install httpd ,mod_ssl and php on webserver hostgroup
+  yum: name={{ item }} state=present 
+  loop:
+     - httpd
+     - mod_ssl
+     - php
+     - firewalld
+
+- name: Starting firewalld 
+  service: name=firewalld state=started enabled=yes
+
+- name: Enabling httpd from firewalld
+  firewalld:
+     service: http
+     permanent: yes
+     state: enabled  
+     immediate: yes
+
+
+- name: Copying index.html to destination
+  template:
+    src: index.html.j2
+    dest: /var/www/html/index.html
+  notify:
+    - restart httpd   
+
+
+-     

@@ -1,0 +1,33 @@
+#Create a playbook /home/automation/plays/regular_tasks.yml that runs on servers in the proxy host group and does the following:
+#
+#A root crontab record is created that runs every hour.
+#The cron job appends the file /var/log/time.log with the output from the date command.
+# command used => ansible-playbook 7_regular_tasks.yml
+#
+#############################################################################################
+#
+---
+- hosts: proxy
+  become: true
+  gather_facts: false
+  tasks:
+   
+    - name: Setting cron on Proxy node
+      cron:
+        name: "date command"
+        minute: "0"
+        hour: "*/1"
+        job: "date  >> var/log/time.log"
+      tags: date_cron  
+           
+    - name: Restarting cron service 
+      service: name=crond state=restarted enabled=true
+      tags: restart_crond
+
+    - shell: crontab -l 
+      register: crontab
+    
+    - debug: 
+        var: crontab.stdout_lines 
+...
+

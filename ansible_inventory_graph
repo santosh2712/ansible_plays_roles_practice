@@ -1,0 +1,9 @@
+@all:
+  |--@database:
+  |  |--ansnode_4
+  |--@proxy:
+  |  |--ansnode_1
+  |--@ungrouped:
+  |--@webserver:
+  |  |--ansnode_2
+  |  |--ansnode_3

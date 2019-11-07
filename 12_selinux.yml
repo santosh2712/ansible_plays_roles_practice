@@ -1,0 +1,40 @@
+# Task 12: Security
+# Create a playbook /home/automation/plays/selinux.yml that runs on hosts in the webservers host group and does the following:
+# Uses the selinux RHEL system role.
+# Enables httpd_can_network_connect SELinux boolean.
+# The change must survive system reboot.
+# 
+# Do as follows 
+# Command used => ansible-playbook 12_selinux.yml 
+# 
+---
+- hosts: webserver
+  gather_facts: false
+  become: true
+  tasks:
+    - name: Ensuring Required Packges are installed 
+      package: 
+        name: "{{ item }}"
+        state: present
+      loop: 
+      - libselinux-python
+      - libsemanage-python 
+      ignore_errors: true 
+      
+
+    - name: Eanbleing httpd_can_network_connect boolean from selinux
+      seboolean:
+        name: httpd_can_network_connect
+        state: yes
+        persistent: yes
+
+    - command: getsebool httpd_can_network_connect 
+      register: getsebool 
+
+    - name: Showing loded seloolean getsebool httpd_can_network_connect 
+      debug: 
+       var: getsebool.stdout_lines  
+...        
+
+...
+

@@ -1,0 +1,45 @@
+# Task 11: Download Roles From an Ansible Galaxy and Use Them
+# Use Ansible Galaxy to download and install geerlingguy.haproxy role in /home/automation/plays/roles.# 
+# Create a playbook /home/automation/plays/haproxy.yml that runs on servers in the proxy host group and does the following:# 
+# Use geerlingguy.haproxy role to load balance request between hosts in the webservers host group.
+# Use roundrobin load balancing method.
+# HAProxy backend servers should be configured for HTTP only (port 80).
+# Firewall is configured to allow all incoming traffic on port TCP 80.
+# If your playbook works, then doing “curl http://ansible2.hl.local/” should return output from the web server 
+# (see task #10). Running the command again should return output from the other web server.# 
+# 
+# Do as follows Switch to roles Directory and issue following command 
+# Command used => ansible-galaxy install  geerlingguy.haproxy
+# Command used => ansible-playbook 12_haproxy.yml 
+
+
+---
+- hosts: proxy 
+  become: true
+  gather_facts: true
+  roles:
+    - {role: geerlingguy.haproxy}
+  
+  tasks:
+    - name: Ensureing firewalld presennt 
+      yum: name=firewalld state=present
+
+    - name: Allowing http request from firwalll on proxy hostgroups 
+      firewalld:
+        service: http
+        permanent: yes
+        state: enabled
+        immediate: true
+      ignore_errors: yes  
+    
+    - name: Ensureing haproxy and firewalld starts on reboot
+      service:
+        name: "{{ service_name }}"
+        enabled: true
+        state: restarted
+      loop:
+        - haproxy
+        - firewalld   
+      loop_control:
+        loop_var: service_name
+
