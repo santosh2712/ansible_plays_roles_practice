@@ -1,0 +1,123 @@
+# Task 2: Ad-Hoc Commands
+# Generate an SSH keypair on the control node. You can perform this step manually.
+# 
+# Write a script /home/automation/plays/adhoc that uses Ansible ad-hoc commands to achieve the following:
+# 
+# User automation is created on all inventory hosts.
+# SSH key (that you generated) is copied to all inventory hosts for the automation user and stored in /home/automation/.ssh/authorized_keys.
+# The automation user is allowed to elevate privileges on all inventory hosts without having to provide a password.
+# After running the adhoc script, you should be able to SSH into all inventory hosts using the automation user without password, 
+# as well as a run all privileged commands.
+# Note Need Create this playbook in adhoc mode only 
+#
+---
+- hosts: all
+  gather_facts: false
+  vars:
+      automation_pass: automation
+
+  tasks: 
+           
+    - name: Adding User automation  on all hosts
+      user: name=automation  state=present generate_ssh_key=yes ssh_key_file=.ssh/id_rsa password={{ automation_pass | password_hash('sha512') }}
+      
+    - name: Copying Keys to Local Machine
+      fetch: src=/home/automation/.ssh/id_rsa.pub dest=./files/automation_user_keys
+
+    - local_action: shell echo -e '#!/bin/bash'\\n '> ./files/automation_kyes' \\n'find ./files/automation_user_keys -name id_rsa.pub | while read i ; do cat $i >> ./files/automation_kyes ; done' \\n 'cat ~/.ssh/id_rsa.pub >> ./files/automation_kyes ' > ./files/keys.sh
+
+    - local_action: script ./files/keys.sh
+    
+    - name: Copying keys to remote machine 
+      authorized_key: user=automation state=present  key={{ lookup('file', './files/automation_kyes') }}
+
+
+    # - name: Validate the sudoers file before saving 
+    #   NOTE: ADHOC MODE NOT  WORKING HEAR
+    #   lineinfile: path=/etc/sudoers state=present regexp='^automation ALL='  line='automation ALL=(ALL) NOPASSWD":" ALL'  validate=/usr/sbin/visudo -cf %s
+
+    - name: Validate the sudoers file before saving
+      lineinfile:
+        path: /etc/sudoers
+        state: present
+        regexp: '^automation ALL='
+        line: 'automation ALL=(ALL) NOPASSWD: ALL'
+        validate: /usr/sbin/visudo -cf %s
+
+...
+# Use Below Command to add users 
+
+# [automation@ansmaster Ansible Plays Roles Practice on 2.9]$ ansible-playbook adhoc.yml -e "ansible_user=root ansible_password=redhat"# 
+
+# PLAY [all] *******************************************************************************************************************************************# 
+
+# TASK [Adding User automation  on all hosts] **********************************************************************************************************
+# changed: [ansnode_1]
+# changed: [ansnode_4]
+# changed: [ansnode_2]
+# changed: [ansnode_3]# 
+
+# TASK [Copying Keys to Local Machine] *****************************************************************************************************************
+# ok: [ansnode_2]
+# ok: [ansnode_3]
+# ok: [ansnode_4]
+# ok: [ansnode_1]# 
+
+# TASK [shell] *****************************************************************************************************************************************
+# changed: [ansnode_2 -> localhost]
+# changed: [ansnode_4 -> localhost]
+# changed: [ansnode_3 -> localhost]
+# changed: [ansnode_1 -> localhost]# 
+
+# TASK [script] ****************************************************************************************************************************************
+# changed: [ansnode_4 -> localhost]
+# changed: [ansnode_1 -> localhost]
+# changed: [ansnode_2 -> localhost]
+# changed: [ansnode_3 -> localhost]# 
+
+# TASK [Copying keys to remote machine] ****************************************************************************************************************
+# changed: [ansnode_1]
+# changed: [ansnode_4]
+# changed: [ansnode_2]
+# changed: [ansnode_3]# 
+
+# TASK [Validate the sudoers file before saving] *******************************************************************************************************
+# ok: [ansnode_1]
+# ok: [ansnode_3]
+# ok: [ansnode_2]
+# ok: [ansnode_4]# 
+
+# PLAY RECAP *******************************************************************************************************************************************
+# ansnode_1                  : ok=6    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+# ansnode_2                  : ok=6    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+# ansnode_3                  : ok=6    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+# ansnode_4                  : ok=6    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0 
+# Verify used added with correct priv # 
+
+# [automation@ansmaster Ansible Plays Roles Practice on 2.9]$ ansible all -a id 
+# ansnode_2 | CHANGED | rc=0 >>
+# uid=1001(automation) gid=1001(automation) groups=1001(automation) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023# 
+
+# ansnode_3 | CHANGED | rc=0 >>
+# uid=1001(automation) gid=1001(automation) groups=1001(automation) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023# 
+
+# ansnode_1 | CHANGED | rc=0 >>
+# uid=1001(automation) gid=1001(automation) groups=1001(automation) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023# 
+
+# ansnode_4 | CHANGED | rc=0 >>
+# uid=1001(automation) gid=1001(automation) groups=1001(automation) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023# 
+
+# with privileged escalations 
+# [automation@ansmaster Ansible Plays Roles Practice on 2.9]$ ansible all -a id -b 
+# ansnode_2 | CHANGED | rc=0 >>
+# uid=0(root) gid=0(root) groups=0(root) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023# 
+
+# ansnode_3 | CHANGED | rc=0 >>
+# uid=0(root) gid=0(root) groups=0(root) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023# 
+
+# ansnode_1 | CHANGED | rc=0 >>
+# uid=0(root) gid=0(root) groups=0(root) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023# 
+
+# ansnode_4 | CHANGED | rc=0 >>
+# uid=0(root) gid=0(root) groups=0(root) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+

@@ -26,3 +26,64 @@
     "changed": false, 
     "ping": "pong"
 }
+2019-11-18 16:44:22,036 p=automation u=27601 | PLAY [all] *******************************************************************************************************************************************
+2019-11-18 16:44:22,049 p=automation u=27601 | TASK [Adding User automation  on all hosts] **********************************************************************************************************
+2019-11-18 16:44:23,844 p=automation u=27601 | changed: [ansnode_1]
+2019-11-18 16:44:23,906 p=automation u=27601 | changed: [ansnode_4]
+2019-11-18 16:44:23,941 p=automation u=27601 | changed: [ansnode_2]
+2019-11-18 16:44:23,956 p=automation u=27601 | changed: [ansnode_3]
+2019-11-18 16:44:23,961 p=automation u=27601 | TASK [Copying Keys to Local Machine] *****************************************************************************************************************
+2019-11-18 16:44:24,890 p=automation u=27601 | ok: [ansnode_2]
+2019-11-18 16:44:24,898 p=automation u=27601 | ok: [ansnode_3]
+2019-11-18 16:44:24,926 p=automation u=27601 | ok: [ansnode_4]
+2019-11-18 16:44:24,930 p=automation u=27601 | ok: [ansnode_1]
+2019-11-18 16:44:24,938 p=automation u=27601 | TASK [shell] *****************************************************************************************************************************************
+2019-11-18 16:44:25,463 p=automation u=27601 | changed: [ansnode_2 -> localhost]
+2019-11-18 16:44:25,467 p=automation u=27601 | changed: [ansnode_4 -> localhost]
+2019-11-18 16:44:25,469 p=automation u=27601 | changed: [ansnode_3 -> localhost]
+2019-11-18 16:44:25,478 p=automation u=27601 | changed: [ansnode_1 -> localhost]
+2019-11-18 16:44:25,487 p=automation u=27601 | TASK [script] ****************************************************************************************************************************************
+2019-11-18 16:44:25,591 p=automation u=27601 | changed: [ansnode_4 -> localhost]
+2019-11-18 16:44:25,609 p=automation u=27601 | changed: [ansnode_1 -> localhost]
+2019-11-18 16:44:25,629 p=automation u=27601 | changed: [ansnode_2 -> localhost]
+2019-11-18 16:44:25,640 p=automation u=27601 | changed: [ansnode_3 -> localhost]
+2019-11-18 16:44:25,645 p=automation u=27601 | TASK [Copying keys to remote machine] ****************************************************************************************************************
+2019-11-18 16:44:26,772 p=automation u=27601 | changed: [ansnode_1]
+2019-11-18 16:44:26,805 p=automation u=27601 | changed: [ansnode_4]
+2019-11-18 16:44:26,820 p=automation u=27601 | changed: [ansnode_2]
+2019-11-18 16:44:26,826 p=automation u=27601 | changed: [ansnode_3]
+2019-11-18 16:44:26,834 p=automation u=27601 | TASK [Validate the sudoers file before saving] *******************************************************************************************************
+2019-11-18 16:44:27,748 p=automation u=27601 | ok: [ansnode_1]
+2019-11-18 16:44:27,796 p=automation u=27601 | ok: [ansnode_3]
+2019-11-18 16:44:27,799 p=automation u=27601 | ok: [ansnode_2]
+2019-11-18 16:44:27,806 p=automation u=27601 | ok: [ansnode_4]
+2019-11-18 16:44:27,810 p=automation u=27601 | PLAY RECAP *******************************************************************************************************************************************
+2019-11-18 16:44:27,811 p=automation u=27601 | ansnode_1                  : ok=6    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2019-11-18 16:44:27,811 p=automation u=27601 | ansnode_2                  : ok=6    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2019-11-18 16:44:27,811 p=automation u=27601 | ansnode_3                  : ok=6    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2019-11-18 16:44:27,812 p=automation u=27601 | ansnode_4                  : ok=6    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2019-11-18 16:44:27,812 p=automation u=27601 | Playbook run took 0 days, 0 hours, 0 minutes, 5 seconds
+2019-11-18 16:47:25,631 p=automation u=28204 | ansnode_2 | CHANGED | rc=0 >>
+uid=1001(automation) gid=1001(automation) groups=1001(automation) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+
+2019-11-18 16:47:25,632 p=automation u=28204 | ansnode_3 | CHANGED | rc=0 >>
+uid=1001(automation) gid=1001(automation) groups=1001(automation) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+
+2019-11-18 16:47:25,634 p=automation u=28204 | ansnode_1 | CHANGED | rc=0 >>
+uid=1001(automation) gid=1001(automation) groups=1001(automation) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+
+2019-11-18 16:47:25,707 p=automation u=28204 | ansnode_4 | CHANGED | rc=0 >>
+uid=1001(automation) gid=1001(automation) groups=1001(automation) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+
+2019-11-18 16:47:44,928 p=automation u=28298 | ansnode_2 | CHANGED | rc=0 >>
+uid=0(root) gid=0(root) groups=0(root) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+
+2019-11-18 16:47:45,051 p=automation u=28298 | ansnode_3 | CHANGED | rc=0 >>
+uid=0(root) gid=0(root) groups=0(root) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+
+2019-11-18 16:47:45,091 p=automation u=28298 | ansnode_1 | CHANGED | rc=0 >>
+uid=0(root) gid=0(root) groups=0(root) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+
+2019-11-18 16:47:45,140 p=automation u=28298 | ansnode_4 | CHANGED | rc=0 >>
+uid=0(root) gid=0(root) groups=0(root) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+
