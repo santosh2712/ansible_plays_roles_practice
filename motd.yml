@@ -1,0 +1,41 @@
+# Task 3: File Content
+# Create a playbook /home/automation/plays/motd.yml that runs on all inventory hosts and does the following:
+
+# The playbook should replace any existing content of /etc/motd with text. Text depends on the host group.
+# On hosts in the proxy host group the line should be “Welcome to HAProxy server”.
+# On hosts in the webserver host group the line should be “Welcome to Apache server”.
+# On hosts in the database host group the line should be “Welcome to MySQL server”
+#
+---
+- hosts: all
+  gather_facts: false
+  become: true
+  tasks:
+
+    - name: Adding Content to /etc/motd file on Proxy hosts group
+      shell: echo  “Welcome to HAProxy server” > /etc/motd
+      when: '"proxy" in group_names'
+
+    - name: Adding Content to /etc/motd file on Apache hosts group
+      shell: echo  “Welcome to Apache server” > /etc/motd
+      when: '"webserver" in group_names'
+
+    - name: Adding Content to /etc/motd file on database hosts group
+      shell: echo  “Welcome to MySQL server” > /etc/motd
+      when: '"database" in group_names'
+...
+# check Content of /etc/motd file acroos all nodes # 
+
+# [automation@ansmaster Ansible Plays Roles Practice on 2.9]$ ansible all -a "cat /etc/motd" -b 
+# ansnode_4 | CHANGED | rc=0 >>
+# “Welcome to MySQL server”# 
+
+# ansnode_1 | CHANGED | rc=0 >>
+# “Welcome to HAProxy server”# 
+
+# ansnode_3 | CHANGED | rc=0 >>
+# “Welcome to Apache server”# 
+
+# ansnode_2 | CHANGED | rc=0 >>
+# “Welcome to Apache server”
+

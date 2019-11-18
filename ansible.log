@@ -87,3 +87,38 @@ uid=0(root) gid=0(root) groups=0(root) context=unconfined_u:unconfined_r:unconfi
 2019-11-18 16:47:45,140 p=automation u=28298 | ansnode_4 | CHANGED | rc=0 >>
 uid=0(root) gid=0(root) groups=0(root) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
 
+2019-11-18 16:56:28,481 p=automation u=28697 | playbook: motd.yml
+2019-11-18 16:56:34,157 p=automation u=28715 | PLAY [all] *******************************************************************************************************************************************
+2019-11-18 16:56:34,169 p=automation u=28715 | TASK [Adding Content to /etc/motd file on Proxy hosts group] *****************************************************************************************
+2019-11-18 16:56:34,251 p=automation u=28715 | skipping: [ansnode_4]
+2019-11-18 16:56:34,270 p=automation u=28715 | skipping: [ansnode_2]
+2019-11-18 16:56:34,288 p=automation u=28715 | skipping: [ansnode_3]
+2019-11-18 16:56:35,488 p=automation u=28715 | changed: [ansnode_1]
+2019-11-18 16:56:35,493 p=automation u=28715 | TASK [Adding Content to /etc/motd file on Apache hosts group] ****************************************************************************************
+2019-11-18 16:56:35,575 p=automation u=28715 | skipping: [ansnode_4]
+2019-11-18 16:56:35,583 p=automation u=28715 | skipping: [ansnode_1]
+2019-11-18 16:56:36,663 p=automation u=28715 | changed: [ansnode_3]
+2019-11-18 16:56:36,700 p=automation u=28715 | changed: [ansnode_2]
+2019-11-18 16:56:36,705 p=automation u=28715 | TASK [Adding Content to /etc/motd file on database hosts group] **************************************************************************************
+2019-11-18 16:56:36,802 p=automation u=28715 | skipping: [ansnode_1]
+2019-11-18 16:56:36,806 p=automation u=28715 | skipping: [ansnode_2]
+2019-11-18 16:56:36,819 p=automation u=28715 | skipping: [ansnode_3]
+2019-11-18 16:56:37,793 p=automation u=28715 | changed: [ansnode_4]
+2019-11-18 16:56:37,796 p=automation u=28715 | PLAY RECAP *******************************************************************************************************************************************
+2019-11-18 16:56:37,796 p=automation u=28715 | ansnode_1                  : ok=1    changed=1    unreachable=0    failed=0    skipped=2    rescued=0    ignored=0   
+2019-11-18 16:56:37,797 p=automation u=28715 | ansnode_2                  : ok=1    changed=1    unreachable=0    failed=0    skipped=2    rescued=0    ignored=0   
+2019-11-18 16:56:37,797 p=automation u=28715 | ansnode_3                  : ok=1    changed=1    unreachable=0    failed=0    skipped=2    rescued=0    ignored=0   
+2019-11-18 16:56:37,797 p=automation u=28715 | ansnode_4                  : ok=1    changed=1    unreachable=0    failed=0    skipped=2    rescued=0    ignored=0   
+2019-11-18 16:56:37,797 p=automation u=28715 | Playbook run took 0 days, 0 hours, 0 minutes, 3 seconds
+2019-11-18 16:57:37,981 p=automation u=28872 | ansnode_4 | CHANGED | rc=0 >>
+“Welcome to MySQL server”
+
+2019-11-18 16:57:38,285 p=automation u=28872 | ansnode_1 | CHANGED | rc=0 >>
+“Welcome to HAProxy server”
+
+2019-11-18 16:57:38,301 p=automation u=28872 | ansnode_3 | CHANGED | rc=0 >>
+“Welcome to Apache server”
+
+2019-11-18 16:57:38,350 p=automation u=28872 | ansnode_2 | CHANGED | rc=0 >>
+“Welcome to Apache server”
+
