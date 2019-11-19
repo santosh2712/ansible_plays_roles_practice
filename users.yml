@@ -1,0 +1,137 @@
+# Task 6: Users and Groups
+# You have been provided with the list of users below.# 
+# Use /home/automation/plays/vars/user_list.yml file to save this content.# 
+# ---
+# users:
+#   - username: alice
+#     uid: 1201
+#   - username: vincent
+#     uid: 1202
+#   - username: sandy
+#     uid: 2201
+#   - username: patrick
+#     uid: 2202
+# Create a playbook /home/automation/plays/users.yml that uses the vault file /home/automation/plays/secret.yml to achieve the following:# 
+
+# Users whose user ID starts with 1 should be created on servers in the webservers host group. User password should be used from the user_password variable.
+# Users whose user ID starts with 2 should be created on servers in the database host group. User password should be used from the user_password variable.
+# All users should be members of a supplementary group wheel.
+# Shell should be set to /bin/bash for all users.
+# Account passwords should use the SHA512 hash format.
+# Each user should have an SSH key uploaded (use the SSH key that you created previously, see task #2).
+# After running the playbook, users should be able to SSH into their respective servers without passwords.
+# 
+---
+- hosts: all
+  gather_facts: false
+  become: true
+  vars_files:
+     - ./secure.yml
+     - ./vars/user_list.yml
+  tasks:
+     #
+     - name: Adding Wheel HostGroup on webservers and database 
+       group: name=wheel state=present
+       loop: "{{ users }}"
+       when: 
+          ( "webserver" in group_names  and item.uid | string is  regex('^1.*$') )  or   
+          ( "database" in  group_names and item.uid | string is regex('^2.*$') )  
+
+     - name: Adding Users on webservers and database host groups 
+       user:
+          name: "{{ item.username }}"
+          uid: "{{ item.uid }}"
+          password: "{{ user_password | password_hash('sha512') }}" 
+          group: wheel
+          shell: /bin/bash 
+          generate_ssh_key: yes
+          ssh_key_file: .ssh/id_rsa
+       loop: "{{ users }}"
+       when: 
+          ( "webserver" in group_names  and item.uid | string is  regex('^1.*$') )  or   
+          ( "database" in  group_names and item.uid | string is regex('^2.*$') )     
+
+
+     - name: Copying ssh Keys to remote hosts 
+       authorized_key:
+          user: "{{ item.username }}" 
+          state: present 
+          key: "{{ lookup('file','./files/automation_kyes') }}"
+       loop: "{{ users }}"  
+       when: 
+          ( "webserver" in group_names  and item.uid | string is  regex('^1.*$') )  or   
+          ( "database" in  group_names and item.uid | string is regex('^2.*$') )     
+
+...     # 
+
+# [automation@ansmaster Ansible Plays Roles Practice on 2.9]$ ansible-playbook users.yml  --vault-password-file=./vault_key# 
+
+# PLAY [all] *******************************************************************************************************************************************# 
+
+# TASK [Adding Wheel HostGroup on webservers and database] *********************************************************************************************
+# skipping: [ansnode_4] => (item={u'username': u'alice', u'uid': 1201}) 
+# skipping: [ansnode_4] => (item={u'username': u'vincent', u'uid': 1202}) 
+# skipping: [ansnode_1] => (item={u'username': u'alice', u'uid': 1201}) 
+# skipping: [ansnode_1] => (item={u'username': u'vincent', u'uid': 1202}) 
+# skipping: [ansnode_1] => (item={u'username': u'sandy', u'uid': 2201}) 
+# skipping: [ansnode_1] => (item={u'username': u'patrick', u'uid': 2202}) 
+# ok: [ansnode_4] => (item={u'username': u'sandy', u'uid': 2201})
+# ok: [ansnode_3] => (item={u'username': u'alice', u'uid': 1201})
+# ok: [ansnode_2] => (item={u'username': u'alice', u'uid': 1201})
+# ok: [ansnode_3] => (item={u'username': u'vincent', u'uid': 1202})
+# ok: [ansnode_4] => (item={u'username': u'patrick', u'uid': 2202})
+# skipping: [ansnode_3] => (item={u'username': u'sandy', u'uid': 2201}) 
+# skipping: [ansnode_3] => (item={u'username': u'patrick', u'uid': 2202}) 
+# ok: [ansnode_2] => (item={u'username': u'vincent', u'uid': 1202})
+# skipping: [ansnode_2] => (item={u'username': u'sandy', u'uid': 2201}) 
+# skipping: [ansnode_2] => (item={u'username': u'patrick', u'uid': 2202}) # 
+
+# TASK [Adding Users on webservers and database host groups] *******************************************************************************************
+# skipping: [ansnode_4] => (item={u'username': u'alice', u'uid': 1201}) 
+# skipping: [ansnode_4] => (item={u'username': u'vincent', u'uid': 1202}) 
+# skipping: [ansnode_1] => (item={u'username': u'alice', u'uid': 1201}) 
+# skipping: [ansnode_1] => (item={u'username': u'vincent', u'uid': 1202}) 
+# skipping: [ansnode_1] => (item={u'username': u'sandy', u'uid': 2201}) 
+# skipping: [ansnode_1] => (item={u'username': u'patrick', u'uid': 2202}) 
+# changed: [ansnode_4] => (item={u'username': u'sandy', u'uid': 2201})
+# changed: [ansnode_3] => (item={u'username': u'alice', u'uid': 1201})
+# changed: [ansnode_2] => (item={u'username': u'alice', u'uid': 1201})
+# changed: [ansnode_4] => (item={u'username': u'patrick', u'uid': 2202})
+# changed: [ansnode_3] => (item={u'username': u'vincent', u'uid': 1202})
+# skipping: [ansnode_3] => (item={u'username': u'sandy', u'uid': 2201}) 
+# skipping: [ansnode_3] => (item={u'username': u'patrick', u'uid': 2202}) 
+# changed: [ansnode_2] => (item={u'username': u'vincent', u'uid': 1202})
+# skipping: [ansnode_2] => (item={u'username': u'sandy', u'uid': 2201}) 
+# skipping: [ansnode_2] => (item={u'username': u'patrick', u'uid': 2202}) # 
+
+# TASK [Copying ssh Keys to remote hosts] **************************************************************************************************************
+# skipping: [ansnode_4] => (item={u'username': u'alice', u'uid': 1201}) 
+# skipping: [ansnode_4] => (item={u'username': u'vincent', u'uid': 1202}) 
+# skipping: [ansnode_1] => (item={u'username': u'alice', u'uid': 1201}) 
+# skipping: [ansnode_1] => (item={u'username': u'vincent', u'uid': 1202}) 
+# skipping: [ansnode_1] => (item={u'username': u'sandy', u'uid': 2201}) 
+# skipping: [ansnode_1] => (item={u'username': u'patrick', u'uid': 2202}) 
+# changed: [ansnode_2] => (item={u'username': u'alice', u'uid': 1201})
+# changed: [ansnode_3] => (item={u'username': u'alice', u'uid': 1201})
+# changed: [ansnode_4] => (item={u'username': u'sandy', u'uid': 2201})
+# changed: [ansnode_2] => (item={u'username': u'vincent', u'uid': 1202})
+# skipping: [ansnode_2] => (item={u'username': u'sandy', u'uid': 2201}) 
+# skipping: [ansnode_2] => (item={u'username': u'patrick', u'uid': 2202}) 
+# changed: [ansnode_4] => (item={u'username': u'patrick', u'uid': 2202})
+# changed: [ansnode_3] => (item={u'username': u'vincent', u'uid': 1202})
+# skipping: [ansnode_3] => (item={u'username': u'sandy', u'uid': 2201}) 
+# skipping: [ansnode_3] => (item={u'username': u'patrick', u'uid': 2202}) # 
+
+# PLAY RECAP *******************************************************************************************************************************************
+# ansnode_1                  : ok=0    changed=0    unreachable=0    failed=0    skipped=3    rescued=0    ignored=0   
+# ansnode_2                  : ok=3    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+# ansnode_3                  : ok=3    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+# ansnode_4                  : ok=3    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   # 
+
+# Playbook run took 0 days, 0 hours, 0 minutes, 7 seconds
+# [automation@ansmaster Ansible Plays Roles Practice on 2.9]$ ssh alice@ansnode_2
+# “Welcome to Apache server”
+# “Welcome to Apache server”
+# [alice@ansnode_2 ~]$ exit
+# logout
+# Connection to ansnode_2 closed.

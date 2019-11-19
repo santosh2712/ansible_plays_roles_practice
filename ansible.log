@@ -190,3 +190,62 @@ uid=0(root) gid=0(root) groups=0(root) context=unconfined_u:unconfined_r:unconfi
 2019-11-19 13:14:25,334 p=automation u=14166 | ansnode_4                  : ok=7    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 2019-11-19 13:14:25,334 p=automation u=14166 | Playbook run took 0 days, 0 hours, 0 minutes, 8 seconds
 2019-11-19 13:27:55,173 p=automation u=15142 | Encryption successful
+2019-11-19 14:34:50,762 p=automation u=19235 | playbook: users.yml
+2019-11-19 14:34:59,686 p=automation u=19253 | PLAY [all] *******************************************************************************************************************************************
+2019-11-19 14:34:59,699 p=automation u=19253 | TASK [Adding Wheel HostGroup on webservers and database] *********************************************************************************************
+2019-11-19 14:34:59,814 p=automation u=19253 | skipping: [ansnode_4] => (item={u'username': u'alice', u'uid': 1201}) 
+2019-11-19 14:34:59,816 p=automation u=19253 | skipping: [ansnode_4] => (item={u'username': u'vincent', u'uid': 1202}) 
+2019-11-19 14:34:59,822 p=automation u=19253 | skipping: [ansnode_1] => (item={u'username': u'alice', u'uid': 1201}) 
+2019-11-19 14:34:59,823 p=automation u=19253 | skipping: [ansnode_1] => (item={u'username': u'vincent', u'uid': 1202}) 
+2019-11-19 14:34:59,840 p=automation u=19253 | skipping: [ansnode_1] => (item={u'username': u'sandy', u'uid': 2201}) 
+2019-11-19 14:34:59,855 p=automation u=19253 | skipping: [ansnode_1] => (item={u'username': u'patrick', u'uid': 2202}) 
+2019-11-19 14:35:01,277 p=automation u=19253 | ok: [ansnode_4] => (item={u'username': u'sandy', u'uid': 2201})
+2019-11-19 14:35:01,327 p=automation u=19253 | ok: [ansnode_3] => (item={u'username': u'alice', u'uid': 1201})
+2019-11-19 14:35:01,406 p=automation u=19253 | ok: [ansnode_2] => (item={u'username': u'alice', u'uid': 1201})
+2019-11-19 14:35:01,923 p=automation u=19253 | ok: [ansnode_3] => (item={u'username': u'vincent', u'uid': 1202})
+2019-11-19 14:35:01,942 p=automation u=19253 | ok: [ansnode_4] => (item={u'username': u'patrick', u'uid': 2202})
+2019-11-19 14:35:01,962 p=automation u=19253 | skipping: [ansnode_3] => (item={u'username': u'sandy', u'uid': 2201}) 
+2019-11-19 14:35:01,979 p=automation u=19253 | skipping: [ansnode_3] => (item={u'username': u'patrick', u'uid': 2202}) 
+2019-11-19 14:35:02,042 p=automation u=19253 | ok: [ansnode_2] => (item={u'username': u'vincent', u'uid': 1202})
+2019-11-19 14:35:02,052 p=automation u=19253 | skipping: [ansnode_2] => (item={u'username': u'sandy', u'uid': 2201}) 
+2019-11-19 14:35:02,060 p=automation u=19253 | skipping: [ansnode_2] => (item={u'username': u'patrick', u'uid': 2202}) 
+2019-11-19 14:35:02,069 p=automation u=19253 | TASK [Adding Users on webservers and database host groups] *******************************************************************************************
+2019-11-19 14:35:02,189 p=automation u=19253 | skipping: [ansnode_4] => (item={u'username': u'alice', u'uid': 1201}) 
+2019-11-19 14:35:02,190 p=automation u=19253 | skipping: [ansnode_4] => (item={u'username': u'vincent', u'uid': 1202}) 
+2019-11-19 14:35:02,195 p=automation u=19253 | skipping: [ansnode_1] => (item={u'username': u'alice', u'uid': 1201}) 
+2019-11-19 14:35:02,198 p=automation u=19253 | skipping: [ansnode_1] => (item={u'username': u'vincent', u'uid': 1202}) 
+2019-11-19 14:35:02,214 p=automation u=19253 | skipping: [ansnode_1] => (item={u'username': u'sandy', u'uid': 2201}) 
+2019-11-19 14:35:02,232 p=automation u=19253 | skipping: [ansnode_1] => (item={u'username': u'patrick', u'uid': 2202}) 
+2019-11-19 14:35:04,034 p=automation u=19253 | changed: [ansnode_4] => (item={u'username': u'sandy', u'uid': 2201})
+2019-11-19 14:35:04,241 p=automation u=19253 | changed: [ansnode_3] => (item={u'username': u'alice', u'uid': 1201})
+2019-11-19 14:35:04,288 p=automation u=19253 | changed: [ansnode_2] => (item={u'username': u'alice', u'uid': 1201})
+2019-11-19 14:35:05,041 p=automation u=19253 | changed: [ansnode_4] => (item={u'username': u'patrick', u'uid': 2202})
+2019-11-19 14:35:05,445 p=automation u=19253 | changed: [ansnode_3] => (item={u'username': u'vincent', u'uid': 1202})
+2019-11-19 14:35:05,459 p=automation u=19253 | skipping: [ansnode_3] => (item={u'username': u'sandy', u'uid': 2201}) 
+2019-11-19 14:35:05,475 p=automation u=19253 | skipping: [ansnode_3] => (item={u'username': u'patrick', u'uid': 2202}) 
+2019-11-19 14:35:05,598 p=automation u=19253 | changed: [ansnode_2] => (item={u'username': u'vincent', u'uid': 1202})
+2019-11-19 14:35:05,605 p=automation u=19253 | skipping: [ansnode_2] => (item={u'username': u'sandy', u'uid': 2201}) 
+2019-11-19 14:35:05,616 p=automation u=19253 | skipping: [ansnode_2] => (item={u'username': u'patrick', u'uid': 2202}) 
+2019-11-19 14:35:05,625 p=automation u=19253 | TASK [Copying ssh Keys to remote hosts] **************************************************************************************************************
+2019-11-19 14:35:05,739 p=automation u=19253 | skipping: [ansnode_4] => (item={u'username': u'alice', u'uid': 1201}) 
+2019-11-19 14:35:05,742 p=automation u=19253 | skipping: [ansnode_4] => (item={u'username': u'vincent', u'uid': 1202}) 
+2019-11-19 14:35:05,745 p=automation u=19253 | skipping: [ansnode_1] => (item={u'username': u'alice', u'uid': 1201}) 
+2019-11-19 14:35:05,747 p=automation u=19253 | skipping: [ansnode_1] => (item={u'username': u'vincent', u'uid': 1202}) 
+2019-11-19 14:35:05,763 p=automation u=19253 | skipping: [ansnode_1] => (item={u'username': u'sandy', u'uid': 2201}) 
+2019-11-19 14:35:05,778 p=automation u=19253 | skipping: [ansnode_1] => (item={u'username': u'patrick', u'uid': 2202}) 
+2019-11-19 14:35:06,643 p=automation u=19253 | changed: [ansnode_2] => (item={u'username': u'alice', u'uid': 1201})
+2019-11-19 14:35:06,754 p=automation u=19253 | changed: [ansnode_3] => (item={u'username': u'alice', u'uid': 1201})
+2019-11-19 14:35:06,758 p=automation u=19253 | changed: [ansnode_4] => (item={u'username': u'sandy', u'uid': 2201})
+2019-11-19 14:35:07,318 p=automation u=19253 | changed: [ansnode_2] => (item={u'username': u'vincent', u'uid': 1202})
+2019-11-19 14:35:07,335 p=automation u=19253 | skipping: [ansnode_2] => (item={u'username': u'sandy', u'uid': 2201}) 
+2019-11-19 14:35:07,354 p=automation u=19253 | skipping: [ansnode_2] => (item={u'username': u'patrick', u'uid': 2202}) 
+2019-11-19 14:35:07,409 p=automation u=19253 | changed: [ansnode_4] => (item={u'username': u'patrick', u'uid': 2202})
+2019-11-19 14:35:07,452 p=automation u=19253 | changed: [ansnode_3] => (item={u'username': u'vincent', u'uid': 1202})
+2019-11-19 14:35:07,462 p=automation u=19253 | skipping: [ansnode_3] => (item={u'username': u'sandy', u'uid': 2201}) 
+2019-11-19 14:35:07,472 p=automation u=19253 | skipping: [ansnode_3] => (item={u'username': u'patrick', u'uid': 2202}) 
+2019-11-19 14:35:07,477 p=automation u=19253 | PLAY RECAP *******************************************************************************************************************************************
+2019-11-19 14:35:07,477 p=automation u=19253 | ansnode_1                  : ok=0    changed=0    unreachable=0    failed=0    skipped=3    rescued=0    ignored=0   
+2019-11-19 14:35:07,478 p=automation u=19253 | ansnode_2                  : ok=3    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2019-11-19 14:35:07,478 p=automation u=19253 | ansnode_3                  : ok=3    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2019-11-19 14:35:07,478 p=automation u=19253 | ansnode_4                  : ok=3    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2019-11-19 14:35:07,478 p=automation u=19253 | Playbook run took 0 days, 0 hours, 0 minutes, 7 seconds
