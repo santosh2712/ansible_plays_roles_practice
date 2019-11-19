@@ -249,3 +249,21 @@ uid=0(root) gid=0(root) groups=0(root) context=unconfined_u:unconfined_r:unconfi
 2019-11-19 14:35:07,478 p=automation u=19253 | ansnode_3                  : ok=3    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 2019-11-19 14:35:07,478 p=automation u=19253 | ansnode_4                  : ok=3    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 2019-11-19 14:35:07,478 p=automation u=19253 | Playbook run took 0 days, 0 hours, 0 minutes, 7 seconds
+2019-11-19 16:53:42,176 p=automation u=27323 | ERROR! the playbook: regular_tasks.yml could not be found
+2019-11-19 16:54:48,435 p=automation u=27372 | PLAY [proxy] *****************************************************************************************************************************************
+2019-11-19 16:54:48,446 p=automation u=27372 | TASK [Adding Cron in Proxy hosts group] **************************************************************************************************************
+2019-11-19 16:54:49,607 p=automation u=27372 | ok: [ansnode_1]
+2019-11-19 16:54:49,612 p=automation u=27372 | TASK [Restarting Cron Service] ***********************************************************************************************************************
+2019-11-19 16:54:51,633 p=automation u=27372 | changed: [ansnode_1]
+2019-11-19 16:54:51,641 p=automation u=27372 | TASK [command] ***************************************************************************************************************************************
+2019-11-19 16:54:52,534 p=automation u=27372 | changed: [ansnode_1]
+2019-11-19 16:54:52,539 p=automation u=27372 | TASK [debug] *****************************************************************************************************************************************
+2019-11-19 16:54:52,596 p=automation u=27372 | ok: [ansnode_1] => {
+    "crontab.stdout_lines": [
+        "#Ansible: Date Cron", 
+        "@hourly date >>  /var/log/time.log"
+    ]
+}
+2019-11-19 16:54:52,599 p=automation u=27372 | PLAY RECAP *******************************************************************************************************************************************
+2019-11-19 16:54:52,599 p=automation u=27372 | ansnode_1                  : ok=4    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2019-11-19 16:54:52,599 p=automation u=27372 | Playbook run took 0 days, 0 hours, 0 minutes, 4 seconds

@@ -1,0 +1,27 @@
+# Task 7: Scheduled Tasks
+# Create a playbook /home/automation/plays/regular_tasks.yml that runs on servers in the proxy host group and does the following:# 
+
+# A root crontab record is created that runs every hour.
+# The cron job appends the file /var/log/time.log with the output from the date command.
+#
+---
+- hosts: proxy
+  become: true
+  gather_facts: false
+  tasks:
+
+    - name: Adding Cron in Proxy hosts group
+      cron:
+        name: "Date Cron"
+        special_time: hourly
+        job: "date >>  /var/log/time.log"
+
+    - name: Restarting Cron Service 
+      service: name=crond state=restarted enabled=yes    
+
+    - command: crontab -l 
+      register: crontab
+
+    - debug: 
+        var: crontab.stdout_lines 
+...
