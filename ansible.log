@@ -267,3 +267,30 @@ uid=0(root) gid=0(root) groups=0(root) context=unconfined_u:unconfined_r:unconfi
 2019-11-19 16:54:52,599 p=automation u=27372 | PLAY RECAP *******************************************************************************************************************************************
 2019-11-19 16:54:52,599 p=automation u=27372 | ansnode_1                  : ok=4    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 2019-11-19 16:54:52,599 p=automation u=27372 | Playbook run took 0 days, 0 hours, 0 minutes, 4 seconds
+2019-11-19 16:55:39,660 p=automation u=27494 | PLAY [database] **************************************************************************************************************************************
+2019-11-19 16:55:39,671 p=automation u=27494 | TASK [Adding MySQL Repository to database hosts group] ***********************************************************************************************
+2019-11-19 16:55:40,820 p=automation u=27494 | ok: [ansnode_4]
+2019-11-19 16:55:40,827 p=automation u=27494 | TASK [command] ***************************************************************************************************************************************
+2019-11-19 16:55:41,694 p=automation u=27494 | [WARNING]: Consider using the yum module rather than running 'yum'.  If you need to use command because yum is insufficient you can add 'warn: false'
+to this command task or set 'command_warnings=False' in ansible.cfg to get rid of this message.
+
+2019-11-19 16:55:41,694 p=automation u=27494 | changed: [ansnode_4]
+2019-11-19 16:55:41,699 p=automation u=27494 | TASK [debug] *****************************************************************************************************************************************
+2019-11-19 16:55:41,762 p=automation u=27494 | ok: [ansnode_4] => {
+    "repolist.stdout_lines": [
+        "Loaded plugins: fastestmirror", 
+        "Loading mirror speeds from cached hostfile", 
+        " * base: centos.hbcse.tifr.res.in", 
+        " * extras: centos.hbcse.tifr.res.in", 
+        " * updates: centos.hbcse.tifr.res.in", 
+        "repo id                             repo name                             status", 
+        "base/7/x86_64                       CentOS-7 - Base                       10,097", 
+        "extras/7/x86_64                     CentOS-7 - Extras                        305", 
+        "mysql56-community                   MySQL 5.6 YUM Repo”                      496", 
+        "updates/7/x86_64                    CentOS-7 - Updates                       738", 
+        "repolist: 11,636"
+    ]
+}
+2019-11-19 16:55:41,764 p=automation u=27494 | PLAY RECAP *******************************************************************************************************************************************
+2019-11-19 16:55:41,764 p=automation u=27494 | ansnode_4                  : ok=3    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2019-11-19 16:55:41,765 p=automation u=27494 | Playbook run took 0 days, 0 hours, 0 minutes, 2 seconds

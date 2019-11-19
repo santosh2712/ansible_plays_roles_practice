@@ -1,0 +1,73 @@
+# Task 8: Software Repositories
+# Create a playbook /home/automation/plays/repository.yml that runs on servers in the database host group and does the following:# 
+
+# A YUM repository file is created.
+# The name of the repository is mysql56-community.
+# The description of the repository is “MySQL 5.6 YUM Repo”.
+# Repository baseurl is http://repo.mysql.com/yum/mysql-5.6-community/el/7/x86_64/.
+# Repository GPG key is at http://repo.mysql.com/RPM-GPG-KEY-mysql.
+# Repository GPG check is enabled.
+# Repository is enabled.
+# 
+---
+- hosts: database
+  become: true
+  gather_facts: false
+  tasks:
+
+    - name: Adding MySQL Repository to database hosts group
+      yum_repository:
+        name: mysql56-community
+        description: MySQL 5.6 YUM Repo”
+        file:  mysql56-community
+        baseurl: http://repo.mysql.com/yum/mysql-5.6-community/el/7/x86_64/
+        gpgcheck: yes 
+        gpgkey: http://repo.mysql.com/RPM-GPG-KEY-mysql
+        enabled: yes 
+
+    - command: yum repolist
+      register: repolist
+
+    - debug:
+         var: repolist.stdout_lines      
+
+... # 
+
+ # [automation@ansmaster Ansible Plays Roles Practice on 2.9]$ ansible-playbook repository.yml --syntax-check  # 
+
+ # playbook: repository.yml
+ # [automation@ansmaster Ansible Plays Roles Practice on 2.9]$ ansible-playbook repository.yml  # 
+
+ # PLAY [database] ************************************************************************************************************************************** # 
+
+ # TASK [Adding MySQL Repository to database hosts group] ***********************************************************************************************
+ # changed: [ansnode_4] # 
+
+ # TASK [command] ***************************************************************************************************************************************
+ # [WARNING]: Consider using the yum module rather than running 'yum'.  If you need to use command because yum is insufficient you can add 'warn: false'
+ # to this command task or set 'command_warnings=False' in ansible.cfg to get rid of this message. # 
+
+ # changed: [ansnode_4] # 
+
+ # TASK [debug] *****************************************************************************************************************************************
+ # ok: [ansnode_4] => {
+ #     "repolist.stdout_lines": [
+ #         "Loaded plugins: fastestmirror", 
+ #         "Determining fastest mirrors", 
+ #         " * base: centos.hbcse.tifr.res.in", 
+ #         " * extras: centos.hbcse.tifr.res.in", 
+ #         " * updates: centos.hbcse.tifr.res.in", 
+ #         "repo id                             repo name                             status", 
+ #         "base/7/x86_64                       CentOS-7 - Base                       10,097", 
+ #         "extras/7/x86_64                     CentOS-7 - Extras                        305", 
+ #         "mysql56-community                   MySQL 5.6 YUM Repo”                      496", 
+ #         "updates/7/x86_64                    CentOS-7 - Updates                       738", 
+ #         "repolist: 11,636"
+ #     ]
+ # } # 
+
+ # PLAY RECAP *******************************************************************************************************************************************
+ # ansnode_4                  : ok=3    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0    # 
+
+ # Playbook run took 0 days, 0 hours, 0 minutes, 42 seconds
+ # [automation@ansmaster Ansible Plays Roles Practice on 2.9]$ 
