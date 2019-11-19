@@ -189,3 +189,4 @@ uid=0(root) gid=0(root) groups=0(root) context=unconfined_u:unconfined_r:unconfi
 2019-11-19 13:14:25,334 p=automation u=14166 | ansnode_3                  : ok=7    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 2019-11-19 13:14:25,334 p=automation u=14166 | ansnode_4                  : ok=7    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 2019-11-19 13:14:25,334 p=automation u=14166 | Playbook run took 0 days, 0 hours, 0 minutes, 8 seconds
+2019-11-19 13:27:55,173 p=automation u=15142 | Encryption successful
