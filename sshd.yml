@@ -1,0 +1,131 @@
+# Task 4: Configure SSH Server
+# Create a playbook /home/automation/plays/sshd.yml that runs on all inventory hosts and configures SSHD daemon as follows:
+# 
+# banner is set to /etc/motd
+# X11Forwarding is disabled
+# MaxAuthTries is set to 3
+#
+---
+- hosts: all
+  become: true
+  gather_facts: false
+  tasks:
+  
+    - name: Setting Banner Directive on in /etc/ssh/sshd_config
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        state: present
+        regexp: '^\s*banner '
+        line: 'banner /etc/motd'
+  
+    - name: Setting X11Forwarding Directive on in /etc/ssh/sshd_config
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        state: present
+        regexp: '^\s*X11Forwarding '
+        line: 'X11Forwarding no'
+  
+    - name: Setting MaxAuthTries Directive on in /etc/ssh/sshd_config
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        state: present
+        regexp: '^\s*MaxAuthTries '
+        line: 'MaxAuthTries 3'
+
+    - name: Validateing  /etc/ssh/sshd_config  file 
+      shell: /usr/sbin/sshd  -t 
+      register: sshd_config
+
+
+    - name: Restarting  sshd resrvice to take effect the changes 
+      service: name=sshd state=restarted enabled=yes
+      when: sshd_config is succeeded 
+
+    - name:   Gathering  directive in /etc/ssh/sshd_config
+      command: grep   '^banner * \|^X11Fo.* \|^MaxAuthTries * ' /etc/ssh/sshd_config
+      register: result
+
+    - debug: 
+        var: result.stdout_lines
+...
+
+# [automation@ansmaster Ansible Plays Roles Practice on 2.9]$ ansible-playbook sshd.yml --syntax-check # 
+
+# playbook: sshd.yml
+# [automation@ansmaster Ansible Plays Roles Practice on 2.9]$ ansible-playbook sshd.yml # 
+
+# PLAY [all] *******************************************************************************************************************************************# 
+
+# TASK [Setting Banner Directive on in /etc/ssh/sshd_config] *******************************************************************************************
+# ok: [ansnode_2]
+# ok: [ansnode_3]
+# ok: [ansnode_1]
+# ok: [ansnode_4]# 
+
+# TASK [Setting X11Forwarding Directive on in /etc/ssh/sshd_config] ************************************************************************************
+# ok: [ansnode_4]
+# ok: [ansnode_2]
+# ok: [ansnode_1]
+# ok: [ansnode_3]# 
+
+# TASK [Setting MaxAuthTries Directive on in /etc/ssh/sshd_config] *************************************************************************************
+# ok: [ansnode_4]
+# ok: [ansnode_1]
+# ok: [ansnode_2]
+# ok: [ansnode_3]# 
+
+# TASK [Validateing  /etc/ssh/sshd_config  file] *******************************************************************************************************
+# changed: [ansnode_2]
+# changed: [ansnode_3]
+# changed: [ansnode_4]
+# changed: [ansnode_1]# 
+
+# TASK [Restarting  sshd resrvice to take effect the changes] ******************************************************************************************
+# changed: [ansnode_3]
+# changed: [ansnode_1]
+# changed: [ansnode_2]
+# changed: [ansnode_4]# 
+
+# TASK [Gathering  directive in /etc/ssh/sshd_config] **************************************************************************************************
+# changed: [ansnode_4]
+# changed: [ansnode_2]
+# changed: [ansnode_1]
+# changed: [ansnode_3]# 
+
+# TASK [debug] *****************************************************************************************************************************************
+# ok: [ansnode_4] => {
+#     "result.stdout_lines": [
+#         "X11Forwarding no", 
+#         "banner /etc/motd", 
+#         "MaxAuthTries 3"
+#     ]
+# }
+# ok: [ansnode_2] => {
+#     "result.stdout_lines": [
+#         "X11Forwarding no", 
+#         "banner /etc/motd", 
+#         "MaxAuthTries 3"
+#     ]
+# }
+# ok: [ansnode_1] => {
+#     "result.stdout_lines": [
+#         "X11Forwarding no", 
+#         "banner /etc/motd", 
+#         "MaxAuthTries 3"
+#     ]
+# }
+# ok: [ansnode_3] => {
+#     "result.stdout_lines": [
+#         "X11Forwarding no", 
+#         "banner /etc/motd", 
+#         "MaxAuthTries 3"
+#     ]
+# }# 
+
+# PLAY RECAP *******************************************************************************************************************************************
+# ansnode_1                  : ok=7    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+# ansnode_2                  : ok=7    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+# ansnode_3                  : ok=7    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+# ansnode_4                  : ok=7    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   # 
+
+# Playbook run took 0 days, 0 hours, 0 minutes, 8 seconds

@@ -122,3 +122,70 @@ uid=0(root) gid=0(root) groups=0(root) context=unconfined_u:unconfined_r:unconfi
 2019-11-18 16:57:38,350 p=automation u=28872 | ansnode_2 | CHANGED | rc=0 >>
 “Welcome to Apache server”
 
+2019-11-19 13:14:12,418 p=automation u=14150 | playbook: sshd.yml
+2019-11-19 13:14:17,087 p=automation u=14166 | PLAY [all] *******************************************************************************************************************************************
+2019-11-19 13:14:17,099 p=automation u=14166 | TASK [Setting Banner Directive on in /etc/ssh/sshd_config] *******************************************************************************************
+2019-11-19 13:14:18,909 p=automation u=14166 | ok: [ansnode_2]
+2019-11-19 13:14:18,917 p=automation u=14166 | ok: [ansnode_3]
+2019-11-19 13:14:18,945 p=automation u=14166 | ok: [ansnode_1]
+2019-11-19 13:14:18,965 p=automation u=14166 | ok: [ansnode_4]
+2019-11-19 13:14:18,971 p=automation u=14166 | TASK [Setting X11Forwarding Directive on in /etc/ssh/sshd_config] ************************************************************************************
+2019-11-19 13:14:19,704 p=automation u=14166 | ok: [ansnode_4]
+2019-11-19 13:14:19,723 p=automation u=14166 | ok: [ansnode_2]
+2019-11-19 13:14:19,727 p=automation u=14166 | ok: [ansnode_1]
+2019-11-19 13:14:19,785 p=automation u=14166 | ok: [ansnode_3]
+2019-11-19 13:14:19,790 p=automation u=14166 | TASK [Setting MaxAuthTries Directive on in /etc/ssh/sshd_config] *************************************************************************************
+2019-11-19 13:14:20,522 p=automation u=14166 | ok: [ansnode_4]
+2019-11-19 13:14:20,535 p=automation u=14166 | ok: [ansnode_1]
+2019-11-19 13:14:20,568 p=automation u=14166 | ok: [ansnode_2]
+2019-11-19 13:14:20,572 p=automation u=14166 | ok: [ansnode_3]
+2019-11-19 13:14:20,578 p=automation u=14166 | TASK [Validateing  /etc/ssh/sshd_config  file] *******************************************************************************************************
+2019-11-19 13:14:21,529 p=automation u=14166 | changed: [ansnode_2]
+2019-11-19 13:14:21,546 p=automation u=14166 | changed: [ansnode_3]
+2019-11-19 13:14:21,551 p=automation u=14166 | changed: [ansnode_4]
+2019-11-19 13:14:21,567 p=automation u=14166 | changed: [ansnode_1]
+2019-11-19 13:14:21,572 p=automation u=14166 | TASK [Restarting  sshd resrvice to take effect the changes] ******************************************************************************************
+2019-11-19 13:14:24,295 p=automation u=14166 | changed: [ansnode_3]
+2019-11-19 13:14:24,311 p=automation u=14166 | changed: [ansnode_1]
+2019-11-19 13:14:24,339 p=automation u=14166 | changed: [ansnode_2]
+2019-11-19 13:14:24,394 p=automation u=14166 | changed: [ansnode_4]
+2019-11-19 13:14:24,401 p=automation u=14166 | TASK [Gathering  directive in /etc/ssh/sshd_config] **************************************************************************************************
+2019-11-19 13:14:25,166 p=automation u=14166 | changed: [ansnode_4]
+2019-11-19 13:14:25,173 p=automation u=14166 | changed: [ansnode_2]
+2019-11-19 13:14:25,184 p=automation u=14166 | changed: [ansnode_1]
+2019-11-19 13:14:25,196 p=automation u=14166 | changed: [ansnode_3]
+2019-11-19 13:14:25,201 p=automation u=14166 | TASK [debug] *****************************************************************************************************************************************
+2019-11-19 13:14:25,289 p=automation u=14166 | ok: [ansnode_4] => {
+    "result.stdout_lines": [
+        "X11Forwarding no", 
+        "banner /etc/motd", 
+        "MaxAuthTries 3"
+    ]
+}
+2019-11-19 13:14:25,310 p=automation u=14166 | ok: [ansnode_2] => {
+    "result.stdout_lines": [
+        "X11Forwarding no", 
+        "banner /etc/motd", 
+        "MaxAuthTries 3"
+    ]
+}
+2019-11-19 13:14:25,314 p=automation u=14166 | ok: [ansnode_1] => {
+    "result.stdout_lines": [
+        "X11Forwarding no", 
+        "banner /etc/motd", 
+        "MaxAuthTries 3"
+    ]
+}
+2019-11-19 13:14:25,330 p=automation u=14166 | ok: [ansnode_3] => {
+    "result.stdout_lines": [
+        "X11Forwarding no", 
+        "banner /etc/motd", 
+        "MaxAuthTries 3"
+    ]
+}
+2019-11-19 13:14:25,333 p=automation u=14166 | PLAY RECAP *******************************************************************************************************************************************
+2019-11-19 13:14:25,333 p=automation u=14166 | ansnode_1                  : ok=7    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2019-11-19 13:14:25,334 p=automation u=14166 | ansnode_2                  : ok=7    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2019-11-19 13:14:25,334 p=automation u=14166 | ansnode_3                  : ok=7    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2019-11-19 13:14:25,334 p=automation u=14166 | ansnode_4                  : ok=7    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2019-11-19 13:14:25,334 p=automation u=14166 | Playbook run took 0 days, 0 hours, 0 minutes, 8 seconds
