@@ -1,0 +1,75 @@
+# Task 13: Use Conditionals to Control Play Execution
+# Create a playbook /home/automation/plays/sysctl.yml that runs on all inventory hosts and does the following:
+# If a server has more than 2048MB of RAM, then parameter vm.swappiness is set to 10.
+# If a server has less than 2048MB of RAM, then the following error message is displayed:
+# Server memory less than 2048MB
+#
+---
+- hosts: all 
+  become: true
+  gather_facts: true
+  tasks: 
+
+    - name: Managing sysctl parameters based on installed value 
+      sysctl:
+        name: vm.swappiness
+        value: '10'
+        state: present
+      when: ansible_memtotal_mb > '2048'
+
+    - debug: 
+        msg: 
+        - "{{ inventory_hostname }} Server memory less than 2048MB"
+        - "{{ inventory_hostname }} has {{ ansible_memtotal_mb }} installed"
+
+...
+#
+# [automation@ansmaster Ansible Plays Roles Practice on 2.9]$ ansible-playbook sysctl.yml # 
+
+# PLAY [all] *******************************************************************************************************************************************# 
+
+# TASK [Gathering Facts] *******************************************************************************************************************************
+# ok: [ansnode_1]
+# ok: [ansnode_4]
+# ok: [ansnode_2]
+# ok: [ansnode_3]# 
+
+# TASK [Managing sysctl parameters based on installed value] *******************************************************************************************
+# skipping: [ansnode_4]
+# skipping: [ansnode_1]
+# skipping: [ansnode_2]
+# skipping: [ansnode_3]# 
+
+# TASK [debug] *****************************************************************************************************************************************
+# ok: [ansnode_4] => {
+#     "msg": [
+#         "ansnode_4 Server memory less than 2048MB", 
+#         "ansnode_4 has 991 installed"
+#     ]
+# }
+# ok: [ansnode_1] => {
+#     "msg": [
+#         "ansnode_1 Server memory less than 2048MB", 
+#         "ansnode_1 has 991 installed"
+#     ]
+# }
+# ok: [ansnode_2] => {
+#     "msg": [
+#         "ansnode_2 Server memory less than 2048MB", 
+#         "ansnode_2 has 991 installed"
+#     ]
+# }
+# ok: [ansnode_3] => {
+#     "msg": [
+#         "ansnode_3 Server memory less than 2048MB", 
+#         "ansnode_3 has 991 installed"
+#     ]
+# }# 
+
+# PLAY RECAP *******************************************************************************************************************************************
+# ansnode_1                  : ok=2    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+# ansnode_2                  : ok=2    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+# ansnode_3                  : ok=2    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+# ansnode_4                  : ok=2    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   # 
+
+# Playbook run took 0 days, 0 hours, 0 minutes, 3 seconds
