@@ -1,0 +1,70 @@
+# Task 14: Use Archiving
+# Create a playbook /home/automation/plays/archive.yml that runs on hosts in the database host group and does the following:# 
+
+# A file /mnt/mysql_backups/database_list.txt is created that contains the following line: dev,test,qa,prod.
+# A gzip archive of the file /mnt/mysql_backups/database_list.txt is created and stored in /mnt/mysql_backups/archive.gz.
+# 
+---
+- hosts: database
+  become: true
+  gather_facts: false
+  tasks:
+
+    - name: Ensure /mnt/mysql_backups directory exist 
+      file: path=/mnt/mysql_backups state=directory 
+
+    - name: Creating contents to file 
+      copy:
+        dest: /mnt/mysql_backups/database_list.txt
+        content: |
+          dev
+          test
+          qa
+          prod
+
+
+    - name: Archiving  file /mnt/mysql_backups/database_list.txt 
+      archive:
+        path: /mnt/mysql_backups/database_list.txt
+        dest: /mnt/mysql_backups/archive.gz
+        format: gz
+
+
+    - command: cat /mnt/mysql_backups/database_list.txt
+      register: filecontent
+
+    - debug:
+        var: filecontent.stdout_lines    
+...
+# 
+# [automation@ansmaster Ansible Plays Roles Practice on 2.9]$ ansible-playbook archive.yml # 
+
+# PLAY [database] **************************************************************************************************************************************# 
+
+# TASK [Ensure /mnt/mysql_backups directory exist] *****************************************************************************************************
+# ok: [ansnode_4]# 
+
+# TASK [Creating contents to file] *********************************************************************************************************************
+# ok: [ansnode_4]# 
+
+# TASK [Archiving  file /mnt/mysql_backups/database_list.txt] ******************************************************************************************
+# ok: [ansnode_4]# 
+
+# TASK [command] ***************************************************************************************************************************************
+# changed: [ansnode_4]# 
+
+# TASK [debug] *****************************************************************************************************************************************
+# ok: [ansnode_4] => {
+#     "filecontent.stdout_lines": [
+#         "dev", 
+#         "test", 
+#         "qa", 
+#         "prod"
+#     ]
+# }# 
+
+# PLAY RECAP *******************************************************************************************************************************************
+# ansnode_4                  : ok=5    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   # 
+
+# Playbook run took 0 days, 0 hours, 0 minutes, 3 seconds
+

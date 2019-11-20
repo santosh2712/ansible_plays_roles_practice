@@ -2230,3 +2230,24 @@ dict key (msg). Using last defined value only.
 2019-11-20 16:34:47,248 p=automation u=23413 | ansnode_3                  : ok=2    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
 2019-11-20 16:34:47,248 p=automation u=23413 | ansnode_4                  : ok=2    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
 2019-11-20 16:34:47,248 p=automation u=23413 | Playbook run took 0 days, 0 hours, 0 minutes, 3 seconds
+2019-11-20 16:51:14,765 p=automation u=24482 | PLAY [database] **************************************************************************************************************************************
+2019-11-20 16:51:14,776 p=automation u=24482 | TASK [Ensure /mnt/mysql_backups directory exist] *****************************************************************************************************
+2019-11-20 16:51:15,544 p=automation u=24482 | ok: [ansnode_4]
+2019-11-20 16:51:15,550 p=automation u=24482 | TASK [Creating contents to file] *********************************************************************************************************************
+2019-11-20 16:51:16,494 p=automation u=24482 | ok: [ansnode_4]
+2019-11-20 16:51:16,499 p=automation u=24482 | TASK [Archiving  file /mnt/mysql_backups/database_list.txt] ******************************************************************************************
+2019-11-20 16:51:17,149 p=automation u=24482 | ok: [ansnode_4]
+2019-11-20 16:51:17,154 p=automation u=24482 | TASK [command] ***************************************************************************************************************************************
+2019-11-20 16:51:17,786 p=automation u=24482 | changed: [ansnode_4]
+2019-11-20 16:51:17,792 p=automation u=24482 | TASK [debug] *****************************************************************************************************************************************
+2019-11-20 16:51:17,851 p=automation u=24482 | ok: [ansnode_4] => {
+    "filecontent.stdout_lines": [
+        "dev", 
+        "test", 
+        "qa", 
+        "prod"
+    ]
+}
+2019-11-20 16:51:17,854 p=automation u=24482 | PLAY RECAP *******************************************************************************************************************************************
+2019-11-20 16:51:17,854 p=automation u=24482 | ansnode_4                  : ok=5    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2019-11-20 16:51:17,854 p=automation u=24482 | Playbook run took 0 days, 0 hours, 0 minutes, 3 seconds
