@@ -404,3 +404,66 @@ to this command task or set 'command_warnings=False' in ansible.cfg to get rid o
 2019-11-20 14:30:04,739 p=automation u=16113 | [WARNING]: No hosts matched, nothing to do
 
 2019-11-20 14:30:04,745 p=automation u=16113 | ERROR! this task 'Task' has extra params, which is only allowed in the following modules: shell, win_shell, include_vars, add_host, raw, include_role, meta, set_fact, include, import_tasks, script, import_role, include_tasks, group_by, command, win_command
+2019-11-20 16:10:30,004 p=automation u=21611 | ERROR! the role 'geerlingguy.haproxy' was not found in /home/automation/Ansible Plays Roles Practice on 2.9/roles:/home/automation/Ansible Plays Roles Practice on 2.9/roles:/home/automation/Ansible Plays Roles Practice on 2.9
+
+The error appears to be in '/home/automation/Ansible Plays Roles Practice on 2.9/haproxy.yml': line 32, column 7, but may
+be elsewhere in the file depending on the exact syntax problem.
+
+The offending line appears to be:
+
+  roles:
+    - { role: geerlingguy.haproxy }
+      ^ here
+
+2019-11-20 16:10:57,285 p=automation u=21634 | - downloading role 'haproxy', owned by geerlingguy
+2019-11-20 16:11:00,923 p=automation u=21634 | - downloading role from https://github.com/geerlingguy/ansible-role-haproxy/archive/1.1.2.tar.gz
+2019-11-20 16:11:03,497 p=automation u=21634 | - extracting geerlingguy.haproxy to /home/automation/Ansible Plays Roles Practice on 2.9/roles/geerlingguy.haproxy
+2019-11-20 16:11:03,503 p=automation u=21634 | - geerlingguy.haproxy (1.1.2) was installed successfully
+2019-11-20 16:12:27,679 p=automation u=21754 | ERROR! Syntax Error while loading YAML.
+  did not find expected node content
+
+The error appears to be in '/home/automation/Ansible Plays Roles Practice on 2.9/roles/geerlingguy.haproxy/defaults/main.yml': line 21, column 4, but may
+be elsewhere in the file depending on the exact syntax problem.
+
+The offending line appears to be:
+
+haproxy_backend_servers: [
+   - name: web1
+   ^ here
+
+2019-11-20 16:12:44,978 p=automation u=21782 | ERROR! couldn't resolve module/action 'Firewalld'. This often indicates a misspelling, missing collection, or incorrect module path.
+
+The error appears to be in '/home/automation/Ansible Plays Roles Practice on 2.9/haproxy.yml': line 24, column 7, but may
+be elsewhere in the file depending on the exact syntax problem.
+
+The offending line appears to be:
+
+
+    - name: Allowing http request
+      ^ here
+
+2019-11-20 16:13:03,493 p=automation u=21810 | playbook: haproxy.yml
+2019-11-20 16:13:08,716 p=automation u=21837 | PLAY [proxy] *****************************************************************************************************************************************
+2019-11-20 16:13:08,730 p=automation u=21837 | TASK [Gathering Facts] *******************************************************************************************************************************
+2019-11-20 16:13:10,619 p=automation u=21837 | ok: [ansnode_1]
+2019-11-20 16:13:10,656 p=automation u=21837 | TASK [geerlingguy.haproxy : Ensure HAProxy is installed.] ********************************************************************************************
+2019-11-20 16:13:11,751 p=automation u=21837 | ok: [ansnode_1]
+2019-11-20 16:13:11,780 p=automation u=21837 | TASK [geerlingguy.haproxy : Ensure HAProxy is enabled (so init script will start it on Debian).] *****************************************************
+2019-11-20 16:13:11,837 p=automation u=21837 | skipping: [ansnode_1]
+2019-11-20 16:13:11,861 p=automation u=21837 | TASK [geerlingguy.haproxy : Get HAProxy version.] ****************************************************************************************************
+2019-11-20 16:13:12,486 p=automation u=21837 | ok: [ansnode_1]
+2019-11-20 16:13:12,514 p=automation u=21837 | TASK [geerlingguy.haproxy : Set HAProxy version.] ****************************************************************************************************
+2019-11-20 16:13:12,576 p=automation u=21837 | ok: [ansnode_1]
+2019-11-20 16:13:12,601 p=automation u=21837 | TASK [geerlingguy.haproxy : Copy HAProxy configuration in place.] ************************************************************************************
+2019-11-20 16:13:13,777 p=automation u=21837 | ok: [ansnode_1]
+2019-11-20 16:13:13,805 p=automation u=21837 | TASK [geerlingguy.haproxy : Ensure HAProxy is started and enabled on boot.] **************************************************************************
+2019-11-20 16:13:14,807 p=automation u=21837 | ok: [ansnode_1]
+2019-11-20 16:13:14,834 p=automation u=21837 | TASK [Ensure Firewalld is installed] *****************************************************************************************************************
+2019-11-20 16:13:15,616 p=automation u=21837 | ok: [ansnode_1]
+2019-11-20 16:13:15,641 p=automation u=21837 | TASK [Ensure firewalld is runiing] *******************************************************************************************************************
+2019-11-20 16:13:16,245 p=automation u=21837 | ok: [ansnode_1]
+2019-11-20 16:13:16,271 p=automation u=21837 | TASK [Allowing http request] *************************************************************************************************************************
+2019-11-20 16:13:17,284 p=automation u=21837 | ok: [ansnode_1]
+2019-11-20 16:13:17,287 p=automation u=21837 | PLAY RECAP *******************************************************************************************************************************************
+2019-11-20 16:13:17,287 p=automation u=21837 | ansnode_1                  : ok=9    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+2019-11-20 16:13:17,287 p=automation u=21837 | Playbook run took 0 days, 0 hours, 0 minutes, 8 seconds
