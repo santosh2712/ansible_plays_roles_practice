@@ -1,0 +1,52 @@
+# Task 16: Software Packages
+# Create a playbook /home/automation/plays/packages.yml that runs on all inventory hosts and does the following:
+# Installs tcpdump and mailx packages on hosts in the proxy host groups.
+# Installs lsof and mailx and packages on hosts in the database host groups.
+#
+---
+- hosts: all
+  become: true
+  gather_facts: false
+  tasks:
+   - name: Adding Packages on proxy hosts groups
+     yum: 
+        name: 
+          - tcpdump
+          - mailx
+        state: present   
+     when: 
+      - '"proxy" in group_names'   
+   
+   - name: Adding Packages on database hosts groups
+     yum:
+        name:
+          - mailx
+          - lsof
+        state: present
+     when: 
+      - '"database"  in group_names'   
+... # 
+
+# [automation@ansmaster Ansible Plays Roles Practice on 2.9]$ ansible-playbook packages.yml # 
+
+# PLAY [all] *******************************************************************************************************************************************# 
+
+# TASK [Adding Packages on proxy hosts groups] *********************************************************************************************************
+# skipping: [ansnode_4]
+# skipping: [ansnode_2]
+# skipping: [ansnode_3]
+# ok: [ansnode_1]# 
+
+# TASK [Adding Packages on database hosts groups] ******************************************************************************************************
+# skipping: [ansnode_1]
+# skipping: [ansnode_2]
+# skipping: [ansnode_3]
+# ok: [ansnode_4]# 
+
+# PLAY RECAP *******************************************************************************************************************************************
+# ansnode_1                  : ok=1    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+# ansnode_2                  : ok=0    changed=0    unreachable=0    failed=0    skipped=2    rescued=0    ignored=0   
+# ansnode_3                  : ok=0    changed=0    unreachable=0    failed=0    skipped=2    rescued=0    ignored=0   
+# ansnode_4                  : ok=1    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   # 
+
+# Playbook run took 0 days, 0 hours, 0 minutes, 4 seconds

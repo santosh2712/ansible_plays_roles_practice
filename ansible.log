@@ -2267,3 +2267,20 @@ dict key (msg). Using last defined value only.
 2019-11-20 17:06:50,222 p=automation u=25781 | PLAY RECAP *******************************************************************************************************************************************
 2019-11-20 17:06:50,223 p=automation u=25781 | ansnode_4                  : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 2019-11-20 17:06:50,223 p=automation u=25781 | Playbook run took 0 days, 0 hours, 0 minutes, 3 seconds
+2019-11-20 17:32:02,497 p=automation u=27710 | PLAY [all] *******************************************************************************************************************************************
+2019-11-20 17:32:02,510 p=automation u=27710 | TASK [Adding Packages on proxy hosts groups] *********************************************************************************************************
+2019-11-20 17:32:02,598 p=automation u=27710 | skipping: [ansnode_4]
+2019-11-20 17:32:02,622 p=automation u=27710 | skipping: [ansnode_2]
+2019-11-20 17:32:02,649 p=automation u=27710 | skipping: [ansnode_3]
+2019-11-20 17:32:05,146 p=automation u=27710 | ok: [ansnode_1]
+2019-11-20 17:32:05,151 p=automation u=27710 | TASK [Adding Packages on database hosts groups] ******************************************************************************************************
+2019-11-20 17:32:05,246 p=automation u=27710 | skipping: [ansnode_1]
+2019-11-20 17:32:05,268 p=automation u=27710 | skipping: [ansnode_2]
+2019-11-20 17:32:05,273 p=automation u=27710 | skipping: [ansnode_3]
+2019-11-20 17:32:07,058 p=automation u=27710 | ok: [ansnode_4]
+2019-11-20 17:32:07,063 p=automation u=27710 | PLAY RECAP *******************************************************************************************************************************************
+2019-11-20 17:32:07,063 p=automation u=27710 | ansnode_1                  : ok=1    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+2019-11-20 17:32:07,063 p=automation u=27710 | ansnode_2                  : ok=0    changed=0    unreachable=0    failed=0    skipped=2    rescued=0    ignored=0   
+2019-11-20 17:32:07,064 p=automation u=27710 | ansnode_3                  : ok=0    changed=0    unreachable=0    failed=0    skipped=2    rescued=0    ignored=0   
+2019-11-20 17:32:07,064 p=automation u=27710 | ansnode_4                  : ok=1    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+2019-11-20 17:32:07,064 p=automation u=27710 | Playbook run took 0 days, 0 hours, 0 minutes, 4 seconds
