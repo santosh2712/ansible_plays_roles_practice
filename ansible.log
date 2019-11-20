@@ -467,3 +467,28 @@ The offending line appears to be:
 2019-11-20 16:13:17,287 p=automation u=21837 | PLAY RECAP *******************************************************************************************************************************************
 2019-11-20 16:13:17,287 p=automation u=21837 | ansnode_1                  : ok=9    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
 2019-11-20 16:13:17,287 p=automation u=21837 | Playbook run took 0 days, 0 hours, 0 minutes, 8 seconds
+2019-11-20 16:15:16,153 p=automation u=22038 | PLAY [webserver] *************************************************************************************************************************************
+2019-11-20 16:15:16,165 p=automation u=22038 | TASK [Installing seboolean module depandancy] ********************************************************************************************************
+2019-11-20 16:15:18,843 p=automation u=22038 | ok: [ansnode_2]
+2019-11-20 16:15:18,850 p=automation u=22038 | ok: [ansnode_3]
+2019-11-20 16:15:18,854 p=automation u=22038 | TASK [Set httpd_can_network_connect flag on and keep it persistent across reboots] *******************************************************************
+2019-11-20 16:15:19,848 p=automation u=22038 | ok: [ansnode_3]
+2019-11-20 16:15:19,894 p=automation u=22038 | ok: [ansnode_2]
+2019-11-20 16:15:19,900 p=automation u=22038 | TASK [command] ***************************************************************************************************************************************
+2019-11-20 16:15:20,599 p=automation u=22038 | changed: [ansnode_3]
+2019-11-20 16:15:20,616 p=automation u=22038 | changed: [ansnode_2]
+2019-11-20 16:15:20,622 p=automation u=22038 | TASK [debug] *****************************************************************************************************************************************
+2019-11-20 16:15:20,683 p=automation u=22038 | ok: [ansnode_2] => {
+    "seboolhttpd.stdout_lines": [
+        "httpd_can_network_connect --> on"
+    ]
+}
+2019-11-20 16:15:20,690 p=automation u=22038 | ok: [ansnode_3] => {
+    "seboolhttpd.stdout_lines": [
+        "httpd_can_network_connect --> on"
+    ]
+}
+2019-11-20 16:15:20,692 p=automation u=22038 | PLAY RECAP *******************************************************************************************************************************************
+2019-11-20 16:15:20,692 p=automation u=22038 | ansnode_2                  : ok=4    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2019-11-20 16:15:20,693 p=automation u=22038 | ansnode_3                  : ok=4    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2019-11-20 16:15:20,693 p=automation u=22038 | Playbook run took 0 days, 0 hours, 0 minutes, 4 seconds

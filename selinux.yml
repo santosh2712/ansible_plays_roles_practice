@@ -1,0 +1,67 @@
+# Task 12: Security
+# Create a playbook /home/automation/plays/selinux.yml that runs on hosts in the webservers host group and does the following:# 
+
+# Uses the selinux RHEL system role.
+# Enables httpd_can_network_connect SELinux boolean.
+# The change must survive system reboot.
+#
+---
+- hosts: webserver
+  become: true
+  gather_facts: false
+  tasks:
+
+    - name: Installing seboolean module depandancy 
+      yum: 
+        name: 
+         - libselinux-python
+         - libsemanage-python 
+        state: present
+      ignore_errors: false   
+
+    - name: Set httpd_can_network_connect flag on and keep it persistent across reboots
+      seboolean:
+        name: httpd_can_network_connect
+        state: yes
+        persistent: yes
+
+    - command: getsebool httpd_can_network_connect
+      register: seboolhttpd
+
+    - debug:
+          var: seboolhttpd.stdout_lines  
+... # 
+
+ # [automation@ansmaster Ansible Plays Roles Practice on 2.9]$ ansible-playbook selinux.yml  # 
+
+ # PLAY [webserver] ************************************************************************************************************************************* # 
+
+ # TASK [Installing seboolean module depandancy] ********************************************************************************************************
+ # changed: [ansnode_3]
+ # changed: [ansnode_2] # 
+
+ # TASK [Set httpd_can_network_connect flag on and keep it persistent across reboots] *******************************************************************
+ # changed: [ansnode_2]
+ # changed: [ansnode_3] # 
+
+ # TASK [command] ***************************************************************************************************************************************
+ # changed: [ansnode_2]
+ # changed: [ansnode_3] # 
+
+ # TASK [debug] *****************************************************************************************************************************************
+ # ok: [ansnode_3] => {
+ #     "seboolhttpd.stdout_lines": [
+ #         "httpd_can_network_connect --> on"
+ #     ]
+ # }
+ # ok: [ansnode_2] => {
+ #     "seboolhttpd.stdout_lines": [
+ #         "httpd_can_network_connect --> on"
+ #     ]
+ # } # 
+
+ # PLAY RECAP *******************************************************************************************************************************************
+ # ansnode_2                  : ok=4    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ # ansnode_3                  : ok=4    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0    # 
+
+ # Playbook run took 0 days, 0 hours, 0 minutes, 24 seconds
