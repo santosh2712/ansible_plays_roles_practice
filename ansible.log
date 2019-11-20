@@ -294,3 +294,82 @@ to this command task or set 'command_warnings=False' in ansible.cfg to get rid o
 2019-11-19 16:55:41,764 p=automation u=27494 | PLAY RECAP *******************************************************************************************************************************************
 2019-11-19 16:55:41,764 p=automation u=27494 | ansnode_4                  : ok=3    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 2019-11-19 16:55:41,765 p=automation u=27494 | Playbook run took 0 days, 0 hours, 0 minutes, 2 seconds
+2019-11-20 13:31:23,131 p=automation u=12953 | playbook: mysql.yml
+2019-11-20 13:31:23,132 p=automation u=12953 |   play #1 (database): database	TAGS: []
+2019-11-20 13:31:23,137 p=automation u=12953 |     tasks:
+      sample-mysql : Create a new primary partition on disk /dev/vda	TAGS: []
+      sample-mysql : Create a volume group named vg_database on top of /dev/vda1	TAGS: []
+      sample-mysql : Create a logical volume named  lv_mysql  of 512m	TAGS: []
+      sample-mysql : Create a xfs filesystem on /dev/vg_database/lv_mysql	TAGS: []
+      sample-mysql : Mount up /dev/vg_database/lv_mysql on	TAGS: []
+      sample-mysql : installing mysql-community-server	TAGS: []
+      sample-mysql : Adding MySQL tcp port to firewalld	TAGS: []
+      sample-mysql : Adding deepandancy for mysql_user module	TAGS: []
+      sample-mysql : starting mysql service	TAGS: []
+      sample-mysql : Seeting Permission of mysq root user with password	TAGS: []
+      sample-mysql : Replacing MySQLdb /etc/my.cnf	TAGS: []
+      sample-mysql : setting firewalld and mysql onboot	TAGS: []
+
+2019-11-20 13:32:26,669 p=automation u=13036 | PLAY [database] **************************************************************************************************************************************
+2019-11-20 13:32:26,684 p=automation u=13036 | TASK [Gathering Facts] *******************************************************************************************************************************
+2019-11-20 13:32:28,604 p=automation u=13036 | ok: [ansnode_4]
+2019-11-20 13:32:28,639 p=automation u=13036 | TASK [sample-mysql : Create a new primary partition on disk /dev/vda] ********************************************************************************
+2019-11-20 13:32:29,334 p=automation u=13036 | ok: [ansnode_4]
+2019-11-20 13:32:29,359 p=automation u=13036 | TASK [sample-mysql : Create a volume group named vg_database on top of /dev/vda1] ********************************************************************
+2019-11-20 13:32:30,039 p=automation u=13036 | ok: [ansnode_4]
+2019-11-20 13:32:30,063 p=automation u=13036 | TASK [sample-mysql : Create a logical volume named  lv_mysql  of 512m] *******************************************************************************
+2019-11-20 13:32:30,779 p=automation u=13036 | ok: [ansnode_4]
+2019-11-20 13:32:30,805 p=automation u=13036 | TASK [sample-mysql : Create a xfs filesystem on /dev/vg_database/lv_mysql] ***************************************************************************
+2019-11-20 13:32:31,464 p=automation u=13036 | ok: [ansnode_4]
+2019-11-20 13:32:31,492 p=automation u=13036 | TASK [sample-mysql : Mount up /dev/vg_database/lv_mysql on] ******************************************************************************************
+2019-11-20 13:32:32,136 p=automation u=13036 | ok: [ansnode_4]
+2019-11-20 13:32:32,162 p=automation u=13036 | TASK [sample-mysql : installing mysql-community-server] **********************************************************************************************
+2019-11-20 13:37:26,098 p=automation u=13036 | changed: [ansnode_4]
+2019-11-20 13:37:26,130 p=automation u=13036 | TASK [sample-mysql : Adding MySQL tcp port to firewalld] *********************************************************************************************
+2019-11-20 13:37:27,384 p=automation u=13036 | ok: [ansnode_4]
+2019-11-20 13:37:27,410 p=automation u=13036 | TASK [sample-mysql : Adding deepandancy for mysql_user module] ***************************************************************************************
+2019-11-20 13:37:28,347 p=automation u=13036 | ok: [ansnode_4]
+2019-11-20 13:37:28,376 p=automation u=13036 | TASK [sample-mysql : starting mysql service] *********************************************************************************************************
+2019-11-20 13:37:30,653 p=automation u=13036 | changed: [ansnode_4]
+2019-11-20 13:37:30,684 p=automation u=13036 | TASK [sample-mysql : Seeting Permission of mysq root user with password] *****************************************************************************
+2019-11-20 13:37:31,401 p=automation u=13036 | fatal: [ansnode_4]: FAILED! => {"changed": false, "msg": "unable to connect to database: (1045, \"Access denied for user 'root'@'localhost' (using password: NO)\")"}
+2019-11-20 13:37:31,401 p=automation u=13036 | ...ignoring
+2019-11-20 13:37:31,429 p=automation u=13036 | TASK [sample-mysql : Replacing MySQLdb /etc/my.cnf] **************************************************************************************************
+2019-11-20 13:37:32,806 p=automation u=13036 | changed: [ansnode_4]
+2019-11-20 13:37:32,833 p=automation u=13036 | TASK [sample-mysql : setting firewalld and mysql onboot] *********************************************************************************************
+2019-11-20 13:37:34,164 p=automation u=13036 | changed: [ansnode_4] => (item=firewalld)
+2019-11-20 13:37:38,253 p=automation u=13036 | changed: [ansnode_4] => (item=mysql)
+2019-11-20 13:37:38,265 p=automation u=13036 | PLAY RECAP *******************************************************************************************************************************************
+2019-11-20 13:37:38,266 p=automation u=13036 | ansnode_4                  : ok=13   changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=1   
+2019-11-20 13:37:38,266 p=automation u=13036 | Playbook run took 0 days, 0 hours, 5 minutes, 11 seconds
+2019-11-20 13:39:45,005 p=automation u=13412 | PLAY [database] **************************************************************************************************************************************
+2019-11-20 13:39:45,020 p=automation u=13412 | TASK [Gathering Facts] *******************************************************************************************************************************
+2019-11-20 13:39:46,964 p=automation u=13412 | ok: [ansnode_4]
+2019-11-20 13:39:47,000 p=automation u=13412 | TASK [sample-mysql : Create a new primary partition on disk /dev/vda] ********************************************************************************
+2019-11-20 13:39:47,721 p=automation u=13412 | ok: [ansnode_4]
+2019-11-20 13:39:47,747 p=automation u=13412 | TASK [sample-mysql : Create a volume group named vg_database on top of /dev/vda1] ********************************************************************
+2019-11-20 13:39:48,434 p=automation u=13412 | ok: [ansnode_4]
+2019-11-20 13:39:48,462 p=automation u=13412 | TASK [sample-mysql : Create a logical volume named  lv_mysql  of 512m] *******************************************************************************
+2019-11-20 13:39:49,179 p=automation u=13412 | ok: [ansnode_4]
+2019-11-20 13:39:49,206 p=automation u=13412 | TASK [sample-mysql : Create a xfs filesystem on /dev/vg_database/lv_mysql] ***************************************************************************
+2019-11-20 13:39:49,856 p=automation u=13412 | ok: [ansnode_4]
+2019-11-20 13:39:49,884 p=automation u=13412 | TASK [sample-mysql : Mount up /dev/vg_database/lv_mysql on] ******************************************************************************************
+2019-11-20 13:39:50,526 p=automation u=13412 | ok: [ansnode_4]
+2019-11-20 13:39:50,553 p=automation u=13412 | TASK [sample-mysql : installing mysql-community-server] **********************************************************************************************
+2019-11-20 13:39:51,827 p=automation u=13412 | ok: [ansnode_4]
+2019-11-20 13:39:51,855 p=automation u=13412 | TASK [sample-mysql : Adding MySQL tcp port to firewalld] *********************************************************************************************
+2019-11-20 13:39:52,877 p=automation u=13412 | ok: [ansnode_4]
+2019-11-20 13:39:52,903 p=automation u=13412 | TASK [sample-mysql : Adding deepandancy for mysql_user module] ***************************************************************************************
+2019-11-20 13:39:53,643 p=automation u=13412 | ok: [ansnode_4]
+2019-11-20 13:39:53,673 p=automation u=13412 | TASK [sample-mysql : starting mysql service] *********************************************************************************************************
+2019-11-20 13:39:54,679 p=automation u=13412 | ok: [ansnode_4]
+2019-11-20 13:39:54,712 p=automation u=13412 | TASK [sample-mysql : Seeting Permission of mysq root user with password] *****************************************************************************
+2019-11-20 13:39:55,433 p=automation u=13412 | ok: [ansnode_4]
+2019-11-20 13:39:55,461 p=automation u=13412 | TASK [sample-mysql : Replacing MySQLdb /etc/my.cnf] **************************************************************************************************
+2019-11-20 13:39:56,679 p=automation u=13412 | ok: [ansnode_4]
+2019-11-20 13:39:56,708 p=automation u=13412 | TASK [sample-mysql : setting firewalld and mysql onboot] *********************************************************************************************
+2019-11-20 13:39:58,078 p=automation u=13412 | changed: [ansnode_4] => (item=firewalld)
+2019-11-20 13:40:02,075 p=automation u=13412 | changed: [ansnode_4] => (item=mysql)
+2019-11-20 13:40:02,090 p=automation u=13412 | PLAY RECAP *******************************************************************************************************************************************
+2019-11-20 13:40:02,090 p=automation u=13412 | ansnode_4                  : ok=13   changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2019-11-20 13:40:02,091 p=automation u=13412 | Playbook run took 0 days, 0 hours, 0 minutes, 17 seconds

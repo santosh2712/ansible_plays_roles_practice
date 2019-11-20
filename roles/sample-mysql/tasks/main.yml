@@ -1,0 +1,75 @@
+---
+# tasks file for sample-mysql
+- name: Create a new primary partition on disk /dev/vda
+  parted:
+    device: /dev/vda
+    number: 1
+    state: present
+    part_end: 800MB
+
+- name: Create a volume group named vg_database on top of /dev/vda1 
+  lvg:
+    vg: vg_database
+    pvs: /dev/vda1
+    pesize: 128K
+
+- name: Create a logical volume named  lv_mysql  of 512m
+  lvol:
+    vg: vg_database
+    lv:  lv_mysql 
+    size: '512'
+
+- name: Create a xfs filesystem on /dev/vg_database/lv_mysql
+  filesystem:
+    fstype: xfs
+    dev: /dev/vg_database/lv_mysql
+
+
+- name: Mount up /dev/vg_database/lv_mysql on 
+  mount:
+    path: /mnt/mysql_backups
+    src: /dev/vg_database/lv_mysql
+    fstype: xfs
+    state: present
+
+- name: installing mysql-community-server 
+  yum: name=mysql-community-server state=present update_cache=yes
+
+- name: Adding MySQL tcp port to firewalld 
+  firewalld:
+    port: 3306/tcp
+    permanent: yes
+    state: enabled
+    immediate: yes
+
+- name: Adding deepandancy for mysql_user module 
+  yum: 
+     name: 
+       - MySQL-python  
+     state: present
+
+- name: starting mysql service 
+  service: name=mysql state=started enabled=yes 
+
+- name: Seeting Permission of mysq root user with password 
+  mysql_user:
+    name: root
+    #login_password: "{{ database_password }}" # uncomment this line if you done this task suceessfuly before 
+    password: "{{ database_password }}"
+    priv: '*.*:ALL'
+    state: present
+  ignore_errors: yes 
+
+- name: Replacing MySQLdb /etc/my.cnf
+  template:
+     src: my.cnf.j2
+     dest: /etc/my.cnf
+     mode: 0655
+
+
+- name: setting firewalld and mysql onboot 
+  service: name="{{ item }}" state=restarted enabled=yes
+  loop:
+    - firewalld
+    - mysql
+

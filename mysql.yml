@@ -1,0 +1,110 @@
+# Task 9: Create and Work with Roles
+# Create a role called sample-mysql and store it in /home/automation/plays/roles. The role should satisfy the following requirements:# 
+
+# A primary partition number 1 of size 800MB on device /dev/sdb is created.
+# An LVM volume group called vg_database is created that uses the primary partition created above.
+# An LVM logical volume called lv_mysql is created of size 512MB in the volume group vg_database.
+# An XFS filesystem on the logical volume lv_mysql is created.
+# Logical volume lv_mysql is permanently mounted on /mnt/mysql_backups.
+# mysql-community-server package is installed.
+# Firewall is configured to allow all incoming traffic on MySQL port TCP 3306.
+# MySQL root user password should be set from the variable database_password (see task #5).
+# MySQL server should be started and enabled on boot.
+# MySQL server configuration file is generated from the my.cnf.j2 Jinja2 template with the following content:
+# [mysqld]
+# bind_address = {{ ansible_default_ipv4.address }}
+# skip_name_resolve
+# datadir=/var/lib/mysql
+# socket=/var/lib/mysql/mysql.sock# 
+
+# symbolic-links=0
+# sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES # 
+
+# [mysqld_safe]
+# log-error=/var/log/mysqld.log
+# pid-file=/var/run/mysqld/mysqld.pid
+# Create a playbook /home/automation/plays/mysql.yml that uses the role and runs on hosts in the database host group.
+# move roles directory and issue below listed command 
+# ansible-galexy init  sample-mysql 
+# 
+# [automation@ansmaster roles]$ ansible-galaxy init sample-mysql
+# - Role sample-mysql was created successfully
+# [automation@ansmaster roles]$ 
+# Check roles/sample-mysql for more details 
+#
+---
+- hosts: database
+  become: true
+  gather_facts: true
+  vars_files: 
+    - ./secure.yml
+  roles:
+      - sample-mysql  
+
+...
+# [automation@ansmaster Ansible Plays Roles Practice on 2.9]$ ansible-playbook mysql.yml  --vault-password-file=./vault_key  --list-tasks# 
+
+# playbook: mysql.yml# 
+
+#   play #1 (database): database  TAGS: []
+#     tasks:
+#       sample-mysql : Create a new primary partition on disk /dev/vda  TAGS: []
+#       sample-mysql : Create a volume group named vg_database on top of /dev/vda1  TAGS: []
+#       sample-mysql : Create a logical volume named  lv_mysql  of 512m TAGS: []
+#       sample-mysql : Create a xfs filesystem on /dev/vg_database/lv_mysql TAGS: []
+#       sample-mysql : Mount up /dev/vg_database/lv_mysql on  TAGS: []
+#       sample-mysql : installing mysql-community-server  TAGS: []
+#       sample-mysql : Adding MySQL tcp port to firewalld TAGS: []
+#       sample-mysql : Adding deepandancy for mysql_user module TAGS: []
+#       sample-mysql : starting mysql service TAGS: []
+#       sample-mysql : Seeting Permission of mysq root user with password TAGS: []
+#       sample-mysql : Replacing MySQLdb /etc/my.cnf  TAGS: []
+#       sample-mysql : setting firewalld and mysql onboot TAGS: []
+# [automation@ansmaster Ansible Plays Roles Practice on 2.9]$ 
+#
+# [automation@ansmaster Ansible Plays Roles Practice on 2.9]$ ansible-playbook mysql.yml  --vault-password-file=./vault_key # 
+
+# PLAY [database] **************************************************************************************************************************************# 
+
+# TASK [Gathering Facts] *******************************************************************************************************************************
+# ok: [ansnode_4]# 
+
+# TASK [sample-mysql : Create a new primary partition on disk /dev/vda] ********************************************************************************
+# ok: [ansnode_4]# 
+
+# TASK [sample-mysql : Create a volume group named vg_database on top of /dev/vda1] ********************************************************************
+# ok: [ansnode_4]# 
+
+# TASK [sample-mysql : Create a logical volume named  lv_mysql  of 512m] *******************************************************************************
+# ok: [ansnode_4]# 
+
+# TASK [sample-mysql : Create a xfs filesystem on /dev/vg_database/lv_mysql] ***************************************************************************
+# ok: [ansnode_4]# 
+
+# TASK [sample-mysql : Mount up /dev/vg_database/lv_mysql on] ******************************************************************************************
+# ok: [ansnode_4]# 
+
+# TASK [sample-mysql : installing mysql-community-server] **********************************************************************************************
+# ok: [ansnode_4]# 
+
+# TASK [sample-mysql : Adding MySQL tcp port to firewalld] *********************************************************************************************
+# ok: [ansnode_4]# 
+
+# TASK [sample-mysql : Adding deepandancy for mysql_user module] ***************************************************************************************
+# ok: [ansnode_4]# 
+
+# TASK [sample-mysql : starting mysql service] *********************************************************************************************************
+# ok: [ansnode_4]# 
+
+# TASK [sample-mysql : Seeting Permission of mysq root user with password] *****************************************************************************
+# ok: [ansnode_4]# 
+
+# TASK [sample-mysql : Replacing MySQLdb /etc/my.cnf] **************************************************************************************************
+# ok: [ansnode_4]# 
+
+# TASK [sample-mysql : setting firewalld and mysql onboot] *********************************************************************************************
+# changed: [ansnode_4] => (item=firewalld)
+# changed: [ansnode_4] => (item=mysql)# 
+
+# PLAY RECAP *******************************************************************************************************************************************
+# ansnode_4                  : ok=13   changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0  
