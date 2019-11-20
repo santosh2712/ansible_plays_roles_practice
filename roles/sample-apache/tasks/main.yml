@@ -1,0 +1,35 @@
+---
+# tasks file for sample-apache
+- name: Install httpd, mod_ssl and php on webserver hosts group
+  yum:
+    name:
+      - httpd
+      - mod_ssl
+      - php
+    state: present
+
+- name: Ensureing firewalld is present
+  yum: name=firewalld state=present
+
+- name: Starting firewalld service 
+  service: name=firewalld state=started  enabled=yes 
+
+- name: adding http to  firewalld
+  firewalld:
+    port: 80/tcp
+    permanent: yes
+    state: enabled
+    immediate: yes
+
+- name: adding https to  firewalld
+  firewalld:
+    port: 443/tcp
+    permanent: yes
+    state: enabled
+    immediate: yes
+
+- name: Replacing /var/www/html/index.html
+  template:
+    src: index.html.j2
+    dest: /var/www/html/index.html
+  notify: restart apache   

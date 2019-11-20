@@ -373,3 +373,34 @@ to this command task or set 'command_warnings=False' in ansible.cfg to get rid o
 2019-11-20 13:40:02,090 p=automation u=13412 | PLAY RECAP *******************************************************************************************************************************************
 2019-11-20 13:40:02,090 p=automation u=13412 | ansnode_4                  : ok=13   changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 2019-11-20 13:40:02,091 p=automation u=13412 | Playbook run took 0 days, 0 hours, 0 minutes, 17 seconds
+2019-11-20 14:28:19,393 p=automation u=15873 | PLAY [webserver] *************************************************************************************************************************************
+2019-11-20 14:28:19,406 p=automation u=15873 | TASK [Gathering Facts] *******************************************************************************************************************************
+2019-11-20 14:28:21,024 p=automation u=15873 | ok: [ansnode_2]
+2019-11-20 14:28:21,039 p=automation u=15873 | ok: [ansnode_3]
+2019-11-20 14:28:21,073 p=automation u=15873 | TASK [sample-apache : Install httpd, mod_ssl and php on webserver hosts group] ***********************************************************************
+2019-11-20 14:28:22,265 p=automation u=15873 | ok: [ansnode_2]
+2019-11-20 14:28:22,287 p=automation u=15873 | ok: [ansnode_3]
+2019-11-20 14:28:22,313 p=automation u=15873 | TASK [sample-apache : Ensureing firewalld is present] ************************************************************************************************
+2019-11-20 14:28:23,189 p=automation u=15873 | ok: [ansnode_2]
+2019-11-20 14:28:23,242 p=automation u=15873 | ok: [ansnode_3]
+2019-11-20 14:28:23,267 p=automation u=15873 | TASK [sample-apache : Starting firewalld service] ****************************************************************************************************
+2019-11-20 14:28:24,365 p=automation u=15873 | ok: [ansnode_2]
+2019-11-20 14:28:24,370 p=automation u=15873 | ok: [ansnode_3]
+2019-11-20 14:28:24,397 p=automation u=15873 | TASK [sample-apache : adding http to  firewalld] *****************************************************************************************************
+2019-11-20 14:28:25,491 p=automation u=15873 | ok: [ansnode_3]
+2019-11-20 14:28:25,515 p=automation u=15873 | ok: [ansnode_2]
+2019-11-20 14:28:25,540 p=automation u=15873 | TASK [sample-apache : adding https to  firewalld] ****************************************************************************************************
+2019-11-20 14:28:26,398 p=automation u=15873 | ok: [ansnode_2]
+2019-11-20 14:28:26,469 p=automation u=15873 | ok: [ansnode_3]
+2019-11-20 14:28:26,494 p=automation u=15873 | TASK [sample-apache : Replacing /var/www/html/index.html] ********************************************************************************************
+2019-11-20 14:28:27,862 p=automation u=15873 | ok: [ansnode_3]
+2019-11-20 14:28:27,866 p=automation u=15873 | ok: [ansnode_2]
+2019-11-20 14:28:27,870 p=automation u=15873 | PLAY RECAP *******************************************************************************************************************************************
+2019-11-20 14:28:27,870 p=automation u=15873 | ansnode_2                  : ok=7    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2019-11-20 14:28:27,870 p=automation u=15873 | ansnode_3                  : ok=7    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2019-11-20 14:28:27,870 p=automation u=15873 | Playbook run took 0 days, 0 hours, 0 minutes, 8 seconds
+2019-11-20 14:30:04,739 p=automation u=16113 | [WARNING]: Could not match supplied host pattern, ignoring: commit
+
+2019-11-20 14:30:04,739 p=automation u=16113 | [WARNING]: No hosts matched, nothing to do
+
+2019-11-20 14:30:04,745 p=automation u=16113 | ERROR! this task 'Task' has extra params, which is only allowed in the following modules: shell, win_shell, include_vars, add_host, raw, include_role, meta, set_fact, include, import_tasks, script, import_role, include_tasks, group_by, command, win_command

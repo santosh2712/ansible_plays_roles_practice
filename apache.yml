@@ -1,0 +1,56 @@
+# Task 10: Create and Work with Roles (Some More)
+# Create a role called sample-apache and store it in /home/automation/plays/roles. The role should satisfy the following requirements:# 
+# The httpd, mod_ssl and php packages are installed. Apache service is running and enabled on boot.
+# Firewall is configured to allow all incoming traffic on HTTP port TCP 80 and HTTPS port TCP 443.
+# Apache service should be restarted every time the file /var/www/html/index.html is modified.
+# A Jinja2 template file index.html.j2 is used to create the file /var/www/html/index.html with the following content:
+# The address of the server is: IPV4ADDRESS
+# IPV4ADDRESS is the IP address of the managed node.# 
+# Create a playbook /home/automation/plays/apache.yml that uses the role and runs on hosts in the webservers host group.
+#
+---
+- hosts: webserver
+  become: true
+  gather_facts: true
+  roles:
+    - { role: sample-apache }
+... # 
+
+ # [automation@ansmaster Ansible Plays Roles Practice on 2.9]$ ansible-playbook apache.yml   # 
+
+ # PLAY [webserver] ************************************************************************************************************************************* # 
+
+ # TASK [Gathering Facts] *******************************************************************************************************************************
+ # ok: [ansnode_2]
+ # ok: [ansnode_3] # 
+
+ # TASK [sample-apache : Install httpd, mod_ssl and php on webserver hosts group] ***********************************************************************
+ # ok: [ansnode_2]
+ # ok: [ansnode_3] # 
+
+ # TASK [sample-apache : Ensureing firewalld is present] ************************************************************************************************
+ # ok: [ansnode_2]
+ # ok: [ansnode_3] # 
+
+ # TASK [sample-apache : Starting firewalld service] ****************************************************************************************************
+ # ok: [ansnode_2]
+ # ok: [ansnode_3] # 
+
+ # TASK [sample-apache : adding http to  firewalld] *****************************************************************************************************
+ # ok: [ansnode_3]
+ # ok: [ansnode_2] # 
+
+ # TASK [sample-apache : adding https to  firewalld] ****************************************************************************************************
+ # ok: [ansnode_2]
+ # ok: [ansnode_3] # 
+
+ # TASK [sample-apache : Replacing /var/www/html/index.html] ********************************************************************************************
+ # ok: [ansnode_3]
+ # ok: [ansnode_2] # 
+
+ # PLAY RECAP *******************************************************************************************************************************************
+ # ansnode_2                  : ok=7    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ # ansnode_3                  : ok=7    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0    # 
+
+ # Playbook run took 0 days, 0 hours, 0 minutes, 8 seconds
+
