@@ -1,0 +1,50 @@
+# Task 15: Work with Ansible Facts
+# Create a playbook /home/automation/plays/facts.yml 
+# that runs on hosts in the database host group and does the following:
+# A custom Ansible fact server_role=mysql is created that can be retrieved from 
+# ansible_local.custom.sample_exam when using Ansible setup module.
+# 
+---
+- hosts: database
+  become: true
+  gather_facts: true
+  tasks:
+
+    - name: Ensure /etc/ansible/fact.d directory exits
+      file: path=/etc/ansible/fact.d  state=directory
+
+    - name: adding content fo file 
+      copy: 
+        dest: /etc/ansible/fact.d/custom.fact
+        content:  |
+          [sample_exam]
+          server_role: mysql
+
+    - debug:
+       var: ansible_local.custom.sample_exam
+
+...
+
+# [automation@ansmaster Ansible Plays Roles Practice on 2.9]$ ansible-playbook facts.yml 
+# PLAY [database] **************************************************************************************************************************************# 
+
+# TASK [Gathering Facts] *******************************************************************************************************************************
+# ok: [ansnode_4]# 
+
+# TASK [Ensure /etc/ansible/fact.d directory exits] ****************************************************************************************************
+# changed: [ansnode_4]# 
+
+# TASK [adding content fo file] ************************************************************************************************************************
+# changed: [ansnode_4]# 
+
+# TASK [debug] *****************************************************************************************************************************************
+# ok: [ansnode_4] => {
+#     "ansible_local.custom.sample_exam": {
+#         "server_role": "mysql"
+#     }
+# }# 
+
+# PLAY RECAP *******************************************************************************************************************************************
+# ansnode_4                  : ok=4    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   # 
+
+# Playbook run took 0 days, 0 hours, 0 minutes, 3 seconds
