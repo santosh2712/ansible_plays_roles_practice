@@ -1,0 +1,18 @@
+# Task 17: Services
+# Create a playbook /home/automation/plays/target.yml that runs on hosts in the webserver host group and does the following:
+# Sets the default boot target to multi-user.
+# 
+---
+- hosts: webserver 
+  become: true
+  gather_facts: false
+  tasks:
+     - name: Setting  default boot on webserver host group
+       command:  systemctl set-default multi-user.target 
+
+     - command: systemctl get-default 
+       register: newtarget
+
+     - debug:
+          var: newtarget.stdout_lines     
+...
