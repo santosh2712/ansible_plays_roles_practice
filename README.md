@@ -1,0 +1,1 @@
+These playbooks and roles will work with Ansible Version 2.9.0. Guide for creating ansible lab will be shared shortly . This test is carried on CentOS Linux release 7.7.1908 (Core) with 4 nodes of centos 7.5 which are hosted on KVM. 
