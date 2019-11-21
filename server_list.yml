@@ -1,0 +1,77 @@
+# Task 18. Create and Use Templates to Create Customised Configuration Files
+# Create a playbook /home/automation/plays/server_list.yml that does the following:# 
+
+# Playbook uses a Jinja2 template server_list.j2 to create a file /etc/server_list.txt on hosts in the database host group.
+# The file /etc/server_list.txt is owned by the automation user.
+# File permissions are set to 0600.
+# SELinux file label should be set to net_conf_t.
+# The content of the file is a list of FQDNs of all inventory hosts.
+# After running the playbook, the content of the file /etc/server_list.txt should be the following:# 
+
+# ansible2.hl.local
+# ansible3.hl.local
+# ansible4.hl.local
+# ansible5.hl.local
+# Note: if the FQDN of any inventory host changes, re-running the playbook should update the file with the new values.
+#
+---
+- hosts: database
+  become: true
+  gather_facts: false
+  tasks:
+     - name: Replacing/Creating file at /etc/server_list.txt on database hostgroup
+       template:
+          src:  ./template/server_list.txt.j2
+          dest: /etc/server_list.txt
+          mode: 0600
+          owner: automation
+          group: automation
+          setype: net_conf_t
+
+     - command: "cat /etc/server_list.txt"
+       register: content
+
+     - debug: 
+          var: content.stdout_lines
+
+     - command: "ls -lZ  /etc/server_list.txt"
+       register: list
+
+     - debug: 
+          var: list.stdout_lines
+...          # 
+
+# [automation@ansmaster Ansible Plays Roles Practice on 2.9]$ ansible-playbook server_list.yml # 
+
+# PLAY [database] **************************************************************************************************************************************# 
+
+# TASK [Replacing/Creating file at /etc/server_list.txt on database hostgroup] *************************************************************************
+# changed: [ansnode_4]# 
+
+# TASK [command] ***************************************************************************************************************************************
+# changed: [ansnode_4]# 
+
+# TASK [debug] *****************************************************************************************************************************************
+# ok: [ansnode_4] => {
+#     "content.stdout_lines": [
+#         "ansnode_4", 
+#         "ansnode_1", 
+#         "ansnode_2", 
+#         "ansnode_3"
+#     ]
+# }# 
+
+# TASK [command] ***************************************************************************************************************************************
+# changed: [ansnode_4]# 
+
+# TASK [debug] *****************************************************************************************************************************************
+# ok: [ansnode_4] => {
+#     "list.stdout_lines": [
+#         "-rw-------. automation automation system_u:object_r:net_conf_t:s0  /etc/server_list.txt"
+#     ]
+# }# 
+
+# PLAY RECAP *******************************************************************************************************************************************
+# ansnode_4                  : ok=5    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   # 
+
+# Playbook run took 0 days, 0 hours, 0 minutes, 2 seconds

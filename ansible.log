@@ -2320,3 +2320,28 @@ The offending line appears to be:
 2019-11-21 11:47:14,638 p=automation u=7679 | ansnode_2                  : ok=3    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 2019-11-21 11:47:14,638 p=automation u=7679 | ansnode_3                  : ok=3    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 2019-11-21 11:47:14,638 p=automation u=7679 | Playbook run took 0 days, 0 hours, 0 minutes, 6 seconds
+2019-11-21 12:35:44,077 p=automation u=10474 | PLAY [database] **************************************************************************************************************************************
+2019-11-21 12:35:44,089 p=automation u=10474 | TASK [Replacing/Creating file at /etc/server_list.txt on database hostgroup] *************************************************************************
+2019-11-21 12:35:45,859 p=automation u=10474 | ok: [ansnode_4]
+2019-11-21 12:35:45,865 p=automation u=10474 | TASK [command] ***************************************************************************************************************************************
+2019-11-21 12:35:46,563 p=automation u=10474 | changed: [ansnode_4]
+2019-11-21 12:35:46,567 p=automation u=10474 | TASK [debug] *****************************************************************************************************************************************
+2019-11-21 12:35:46,627 p=automation u=10474 | ok: [ansnode_4] => {
+    "content.stdout_lines": [
+        "ansnode_4", 
+        "ansnode_1", 
+        "ansnode_2", 
+        "ansnode_3"
+    ]
+}
+2019-11-21 12:35:46,630 p=automation u=10474 | TASK [command] ***************************************************************************************************************************************
+2019-11-21 12:35:47,116 p=automation u=10474 | changed: [ansnode_4]
+2019-11-21 12:35:47,121 p=automation u=10474 | TASK [debug] *****************************************************************************************************************************************
+2019-11-21 12:35:47,179 p=automation u=10474 | ok: [ansnode_4] => {
+    "list.stdout_lines": [
+        "-rw-------. automation automation system_u:object_r:net_conf_t:s0  /etc/server_list.txt"
+    ]
+}
+2019-11-21 12:35:47,181 p=automation u=10474 | PLAY RECAP *******************************************************************************************************************************************
+2019-11-21 12:35:47,181 p=automation u=10474 | ansnode_4                  : ok=5    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2019-11-21 12:35:47,181 p=automation u=10474 | Playbook run took 0 days, 0 hours, 0 minutes, 3 seconds
